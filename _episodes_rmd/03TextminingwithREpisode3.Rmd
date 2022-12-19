@@ -1,5 +1,5 @@
 ---
-title: "Episode 1"
+title: "Episode 3"
 teaching: 0
 exercises: 0
 questions:
@@ -36,3 +36,9 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r libraries & data, eval=FALSE}
+library(tidyverse)
+library(tm)
+read.delim("../data/AFINN dansk.txt")
+```
+
