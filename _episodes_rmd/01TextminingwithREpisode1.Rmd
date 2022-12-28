@@ -72,7 +72,7 @@ data_kina <- data_kina %>%
 
 Now that the dataset was properly filtered to parliament speeches on China we wrote it as a txt.-file, so that it can easily be loaded into RStudio by you
 
-*To easily load the dataset there are a couple of steps.
+*To easily download the dataset there are a couple of steps.
 1. Open an RStudio Project. Click on the blue cube to open the `.Rproj`
 
 2. Create a working directory by using the RStudio interface by clicking on the "New Folder" button in the file pane (bottom right), or directly from R by typing at console
@@ -83,11 +83,6 @@ dir.create("data")
 3. Download the data-file from GitHub and put it in the `data/` you just created. The download link is https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/kina.txt. Place the downloaded file in the `data/` you just created. This can be done by copying and pasting this in your terminal [picture of terminal needed here] 
 ```{r}
 download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/kina.txt", "data/kina.txt", mode = "wb")
-```
-
-4. Read the downloaded file into a tibble
-```{r}
-kina <- read_delim("data/kina.txt")
 ```
 
 
