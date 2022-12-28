@@ -18,6 +18,64 @@ keypoints:
 
 
 ## R Markdown
+## loading our libraries and reading our data
+Let us now load our libraries and read the downloaded dataset into a tibble. We use tidyverse's read_delim to read the downloaded dataset as a tibble
+
+~~~
+library(tidyverse)
+~~~
+{: .language-r}
+
+
+
+~~~
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0      ✔ purrr   1.0.0 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.5.0 
+✔ readr   2.1.3      ✔ forcats 0.5.2 
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+~~~
+{: .output}
+
+
+
+~~~
+library(tidytext)
+library(tm)
+~~~
+{: .language-r}
+
+
+
+~~~
+Loading required package: NLP
+
+Attaching package: 'NLP'
+
+The following object is masked from 'package:ggplot2':
+
+    annotate
+~~~
+{: .output}
+
+
+
+~~~
+kina <- read_delim("data/kina.txt")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error: 'data/kina.txt' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
+~~~
+{: .error}
+
+
 ## Understanding our data
 
 We have now successfully loaded in our dataset. Before we start preparing it for analysis, let us inspect the columns to see what the dataset contains
@@ -55,30 +113,10 @@ The tm library contains a list of stopwords for Danish, which we'll make into a 
 
 ~~~
 stopwords_dansk <- as_tibble(stopwords(kind = "danish"))
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in as_tibble(stopwords(kind = "danish")): could not find function "as_tibble"
-~~~
-{: .error}
-
-
-
-~~~
 stopwords_dansk <- stopwords_dansk %>% 
   rename(word = value)
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in stopwords_dansk %>% rename(word = value): could not find function "%>%"
-~~~
-{: .error}
 
 ## Sentiment analysis
 Sentiment analysis is a method for measuring the sentiment of a text. To do this, it is necessary to have a list of words that have been assigned to a certain sentiment. This can be a simple assignation of words into positive and negative, it can be an assignation to one among a multitude of categories, and the word can have a value on a scale. In this course we will use the AFINN index for Danish, which assigns approximately 3500 words on a scale from +5 to -5. This will enable us to compare the overall sentiment of the various speeches. As a side note, AFINN index is also available in English. 
@@ -102,9 +140,16 @@ AFINN <- read_delim("data/AFINN_dansk.txt")
 
 
 ~~~
-Error in read_delim("data/AFINN_dansk.txt"): could not find function "read_delim"
+Rows: 3551 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (1): absorberet
+dbl (1): 1
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ~~~
-{: .error}
+{: .output}
 
 
 
@@ -119,7 +164,7 @@ AFINN_dansk <- AFINN_dansk %>%
 
 
 ~~~
-Error in AFINN_dansk %>% rename(word = X1, sentiment_value = X2): could not find function "%>%"
+Error in rename(., word = X1, sentiment_value = X2): object 'AFINN_dansk' not found
 ~~~
 {: .error}
 
@@ -151,10 +196,44 @@ kina_tidy <- kina %>%
 
 
 ~~~
-Error in kina %>% unnest_tokens(word, Text) %>% anti_join(stopwords_dansk) %>% : could not find function "%>%"
+Error in is_grouped_df(tbl): object 'kina' not found
 ~~~
 {: .error}
 
+## Analyzing the sentiment of parties
+We would like to measure the sentiment of each party when giving speeches on the topic of China
+
+
+~~~
+kina_tidy %>% 
+  filter(Role != "formand") %>% 
+  group_by(Party) %>% 
+  summarize(
+    mean_sentiment_value = mean(sentiment_value, na.rm=T) #Brug måske sum i stedet
+  ) %>% 
+  arrange(desc(mean_sentiment_value)) %>% 
+  ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
+  geom_col() +
+  labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in filter(., Role != "formand"): object 'kina_tidy' not found
+~~~
+{: .error}
+
+
+
+~~~
+#y-value
+~~~
+{: .language-r}
+
+## Analyzing the sentiment of rød and blå blok
+We would also like to analyze the sentiment of rød and blå blok. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok, and then make a left_join to our rows
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 

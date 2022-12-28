@@ -154,7 +154,7 @@ data_kina <- data_kina %>%
 
 Now that the dataset was properly filtered to parliament speeches on China we wrote it as a txt.-file, so that it can easily be loaded into RStudio by you
 
-*To easily load the dataset there are a couple of steps.
+*To easily download the dataset there are a couple of steps.
 1. Open an RStudio Project. Click on the blue cube to open the `.Rproj`
 
 2. Create a working directory by using the RStudio interface by clicking on the "New Folder" button in the file pane (bottom right), or directly from R by typing at console
@@ -177,29 +177,6 @@ Warning in dir.create("data"): 'data' already exists
 download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/kina.txt", "data/kina.txt", mode = "wb")
 ~~~
 {: .language-r}
-
-4. Read the downloaded file into a tibble
-
-~~~
-kina <- read_delim("data/kina.txt")
-~~~
-{: .language-r}
-
-
-
-~~~
-Rows: 657 Columns: 19
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: " "
-chr  (12): ID, Agenda item, Case type, Agenda title, Subject 1, Subject 2, N...
-dbl   (3): Time, Case no, Age
-date  (2): Date, Birth
-time  (2): Start time, End time
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
 
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
