@@ -50,7 +50,7 @@ In all natural language texts, frequent words that carry little meaning by thems
 
 The frequent low-meaning words need to be removed because they do not add anything to our understanding of the texts and are just noise
 
-The tm library contains a list of stopwords for Danish, which we'll make into a tibble. We have to specify that the list of stopwrds that we want to call is the list for the Danish language. We also rename the tibble column that contains the stopwords. Note that stopword lists are also available for most major european languages
+The tm library contains a list of stopwords for Danish, which we'll make into a tibble. We have to specify that the list of stopwrds that we want to call is the list for the Danish language. We also rename the tibble column that contains the stopwords. Note that stopword lists are also available for most major European languages
 
 
 ~~~
@@ -81,7 +81,79 @@ Error in stopwords_dansk %>% rename(word = value): could not find function "%>%"
 {: .error}
 
 ## Sentiment analysis
-Sentiment analysis is a method for calculating the sentiment of a text. To do this, it is necessary to have a list of words that have been assigned to a certain sentiment. This can either be a simple assignation of words into positive and negative, or it can be 
+Sentiment analysis is a method for measuring the sentiment of a text. To do this, it is necessary to have a list of words that have been assigned to a certain sentiment. This can be a simple assignation of words into positive and negative, it can be an assignation to one among a multitude of categories, and the word can have a value on a scale. In this course we will use the AFINN index for Danish, which assigns approximately 3500 words on a scale from +5 to -5. This will enable us to compare the overall sentiment of the various speeches. As a side note, AFINN index is also available in English. 
+
+We need to download the AFINN Index from GitHub
+
+
+~~~
+download.file("https://raw.githubusercontent.com/swillerhansen/R-textmining/main/data/AFINN%20dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
+~~~
+{: .language-r}
+
+Now we read need to read the AFINN Index into a tibble and rename the columns
+
+
+~~~
+AFINN <- read_delim("data/AFINN_dansk.txt")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in read_delim("data/AFINN_dansk.txt"): could not find function "read_delim"
+~~~
+{: .error}
+
+
+
+~~~
+AFINN_dansk <- AFINN_dansk %>% 
+  rename(
+    word = X1,
+    sentiment_value = X2)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in AFINN_dansk %>% rename(word = X1, sentiment_value = X2): could not find function "%>%"
+~~~
+{: .error}
+
+## Bringing it all together: joins
+We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together according to based on columns and rows that they have in common
+
+There are fundamentally 2 types of joins:
+Mutating joins (which add columns)
+Filtering joins (which filter away rows)
+
+Mutating joins work by adding new columns to the tibble. We will use left_join, which is the most common of the mutating joins
+[insert Venn-diagram of left_join]
+The left_join joins all AFINN sentiment values to those rows that contain a word that is in the AFINN Index and adds it as a new column to the tibble. In the new column, the rows that contain words that don't appear in the AFINN Index have NA in their cell
+
+Filtering joins work by filtering away some rows in the tibble. We will use the anti_join, which removes those rows that contain a word that is also in the stopword list
+[insert Venn-diagram of anti_join]
+
+For more info on joins see https://r4ds.had.co.nz/relational-data.html
+
+
+~~~
+kina_tidy <- kina %>% 
+  unnest_tokens(word, Text) %>% #tidytext tokenization
+  anti_join(stopwords_dansk) %>% #stopwords in Danish
+  left_join(AFINN_dansk, by = "word") #left join with AFINN Index in Danish
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in kina %>% unnest_tokens(word, Text) %>% anti_join(stopwords_dansk) %>% : could not find function "%>%"
+~~~
+{: .error}
 
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
