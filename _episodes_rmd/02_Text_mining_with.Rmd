@@ -35,9 +35,9 @@ To analyze the speeches we need to make the text tidy. Tidy text refers to a dat
 
 Splitting texts, in our case speeches, into individual words is called tokenization [insert visualization of tokenization of a sentence]
 
-Tokenization of text into individual words is necessary for text mining because it allows us to analyze the text closely and in detail, analyses which can later be visualized to understand the patterns of the text
+Tokenization of text into individual words is necessary for text mining because it allows us to analyze the text closely and in detail, analyses which can later be visualized to understand the patterns of the text. Tokenization is language independent, as long as the language is written in an alphabet or syllabary that uses spaces between words. When tokenizating our text to make it tidy, the metadata that describe the whole speech are carried over to also describe the individual word. Thus we can split the text into individual words but still keep track of who said that word and when they did.
 
-We use the tidytext library for this
+We use the tidytext library for tokenization
 
 ## Stopwords
 In all natural language texts, frequent words that carry little meaning by themselves are distributed all across the text [insert visualization of sentence(s) where stopwords are highlighted].
@@ -53,7 +53,7 @@ stopwords_dansk <- stopwords_dansk %>%
 ```
 
 ## Sentiment analysis
-
+Sentiment analysis is a method for calculating the sentiment of a text. To do this, it is necessary to have a list of words that have been assigned to a certain sentiment. This can either be a simple assignation of words into positive and negative, or it can be 
 
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
