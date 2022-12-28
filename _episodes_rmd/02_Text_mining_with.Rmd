@@ -21,6 +21,16 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## R Markdown
+## loading our libraries and reading our data
+Let us now load our libraries and read the downloaded dataset into a tibble. We use tidyverse's read_delim to read the downloaded dataset as a tibble
+```{r}
+library(tidyverse)
+library(tidytext)
+library(tm)
+kina <- read_delim("data/kina.txt")
+```
+
+
 ## Understanding our data
 
 We have now successfully loaded in our dataset. Before we start preparing it for analysis, let us inspect the columns to see what the dataset contains
@@ -94,6 +104,25 @@ kina_tidy <- kina %>%
   left_join(AFINN_dansk, by = "word") #left join with AFINN Index in Danish
 ```
 
+## Analyzing the sentiment of parties
+We would like to measure the sentiment of each party when giving speeches on the topic of China
+
+```{r}
+kina_tidy %>% 
+  filter(Role != "formand") %>% 
+  group_by(Party) %>% 
+  summarize(
+    mean_sentiment_value = mean(sentiment_value, na.rm=T) #Brug måske sum i stedet
+  ) %>% 
+  arrange(desc(mean_sentiment_value)) %>% 
+  ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
+  geom_col() +
+  labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest
+#y-value
+```
+
+## Analyzing the sentiment of rød and blå blok
+We would also like to analyze the sentiment of rød and blå blok. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok, and then make a left_join to our rows
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
