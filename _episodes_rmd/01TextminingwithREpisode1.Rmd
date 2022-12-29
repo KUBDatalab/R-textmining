@@ -55,16 +55,16 @@ We wanted to convert the text in two of the columns to lowercase and save them i
 data$`Agenda title`<- tolower(data$`Agenda title`)
 data$Text <- tolower(data$Text)
 
-Now we needed to filter the data to speeches about China and save it as a tibble. We chose to filter on `Ageenda title`, because it gives the a complete list of speeches about China. If we were to use the speech text itself, we would have missed speeches about China that did not use the the name China or its derivative adjectives, compound nouns and compound names. str_detect allows us to find instances of speeches about China where the name or the adjective appears either on its own  or as part of other words
+Now we needed to filter the data to speeches about China and save it as a tibble. We chose to filter on \`Ageenda title`\, because it gives the a complete list of speeches about China. If we were to use the speech text itself, we would have missed speeches about China that did not use the the name China or its derivative adjectives, compound nouns and compound names. str_detect allows us to find instances of speeches about China where the name or the adjective appears either on its own  or as part of other words
 data_kina <- data %>% 
   filter(
     str_detect(`Agenda title`, "kina") | str_detect(`Agenda title`, "kines")
   )
 
-To check that all the speeches relate to China, we wanted to have a list of all the different `Agenda title`s in the filtered data
+To check that all the speeches relate to China, we wanted to have a list of all the different \`Agenda title`\s in the filtered data
 unique(data_kina$`Agenda title`)
 
-We saw that one of the `Agenda title`s had the work "maskinarbejder" in it. The speeches on this `Agenda title` obviously don't relate to China, so we filter the speeches on this `Agenda title` away
+We saw that one of the \`Agenda title\`s had the work "maskinarbejder" in it. The speeches on this \`Agenda title`\ obviously don't relate to China, so we filter the speeches on this \`Agenda title`\ away
 data_kina <- data_kina %>% 
   filter(
     !str_detect(`Agenda title`, "maskinarbejder")
