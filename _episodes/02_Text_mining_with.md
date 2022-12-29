@@ -233,7 +233,58 @@ Error in filter(., Role != "formand"): object 'kina_tidy' not found
 {: .language-r}
 
 ## Analyzing the sentiment of rød and blå blok
-We would also like to analyze the sentiment of rød and blå blok. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok, and then make a left_join to our rows
+We would also like to analyze the sentiment of rød and blå blok. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok and put that in a tibble, then bind the two tibbles into one tibble, and then make a left_join to the rows in our tidy text
+
+
+~~~
+roed_blok = tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
+blaa_blok = tibble(Party= c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
+blok = bind_rows(roed_blok, blaa_blok)
+kina_tidy_blokke <- kina_tidy %>% 
+  left_join(blok, by = "Party")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in left_join(., blok, by = "Party"): object 'kina_tidy' not found
+~~~
+{: .error}
+
+Now we would like to do the same analysis of mean sentiment value, this time for each blok. We also want to specify that the column for roed_bloek should be red and the column for blaa_blok should be blue
+
+
+~~~
+kina_tidy_blokke %>% 
+  filter(Role != "formand") %>% 
+  group_by(Blok) %>% 
+  summarize(
+    mean_sentiment_value = mean(sentiment_value, na.rm=T) #Brug måske sum i stedet
+  ) %>% 
+  arrange(desc(mean_sentiment_value)) %>% 
+  ggplot(aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), y = mean_sentiment_value, fill = Blok)) + 
+  geom_col() +
+  scale_fill_manual(values = c("blue", "red")) +
+  labs(x= "Blok") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke' not found
+~~~
+{: .error}
+
+
+
+~~~
+#y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse
+#order of how the columns appear in the chart
+~~~
+{: .language-r}
+
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
