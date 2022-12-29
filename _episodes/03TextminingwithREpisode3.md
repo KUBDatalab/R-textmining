@@ -31,7 +31,7 @@ kina_tidy_blokke %>%
   mutate(word = reorder_within(word, n, Party)) %>% 
   ggplot(aes(n, word, fill = Party)) +
   geom_col() + 
-  facet_wrap(~Party, scales = "free_y") +
+  facet_wrap(~Party, scales = "free") +
   scale_y_reordered() +
   labs(x = "Word occurrences")
 ~~~
@@ -46,16 +46,16 @@ Error in kina_tidy_blokke %>% filter(Role != "formand") %>% group_by(Party) %>% 
 
 Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then anti_join it with the dataset, just like we did for the already exisitng stopword list.
 
-First we look at the top 50 words to find the stopwords for our custom stopword list
+First we look at the top 70 words to find the stopwords for our custom stopword list
 
 
 ~~~
 kina_tidy_blokke %>% 
   filter(Role != "formand") %>% 
   count(word, sort = TRUE) %>% 
-  top_n(50) %>% 
+  top_n(70) %>% 
   tbl_df %>% 
-  print(n=50)
+  print(n=70)
 ~~~
 {: .language-r}
 
@@ -66,20 +66,29 @@ Error in kina_tidy_blokke %>% filter(Role != "formand") %>% count(word, : could 
 ~~~
 {: .error}
 
-Based on this, we select the words that we consider stopwords and make them into a tibble
+Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Upon later examinations some more names have also been added to the custom stopword list
 
 
 ~~~
-custom_stopwords <- tibble(word = c("sker", "kan", "så", "sige", "hr", "søren", "espersen", "synes", "ved", "altså", "få", "andre", "står", "må", "derfor"))
+custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", "altså", "søren", "tror", 
+                                    "få", "bare", "derfor", "godt", "andre", "må", "espersen", "mener", "gøre", "helt", "dag", 
+                                    "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak", "måde", 
+                                    "set", "siger", "andet", "sagt", "år", "lige", "står", "tage", "nemlig", "lidt",
+                                    "sag", "går", "kommer", "nok", "danmark", "danmarks", "dansk", "danske", "danskt", 
+                                    "kina", "kinas", "kinesisk", "kinesiske", "kinesiskt", 
+                                    "ordfører", "ordføreren", "ordførerens", "ordførere", "ordførerne", 
+                                    "spørgsmål", "møder", "holger", "k", "nielsen"))
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error in tibble(word = c("sker", "kan", "så", "sige", "hr", "søren", : could not find function "tibble"
+Error in tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", "altså", : could not find function "tibble"
 ~~~
 {: .error}
+
+We then do an anti_join
 
 
 ~~~
@@ -96,6 +105,76 @@ Error in kina_tidy_blokke %>% anti_join(custom_stopwords, by = "word"): could no
 {: .error}
 
 Let's now make our plot again
+
+
+~~~
+kina_tidy_blokke2 %>% 
+  filter(Role != "formand") %>% 
+  group_by(Party) %>% 
+  count(word, sort = TRUE) %>%
+  top_n(10) %>% 
+  ungroup() %>% 
+  mutate(word = reorder_within(word, n, Party)) %>% 
+  ggplot(aes(n, word, fill = Party)) +
+  geom_col() + 
+  facet_wrap(~Party, scales = "free") +
+  scale_y_reordered() +
+  labs(x = "Word occurrences")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in kina_tidy_blokke2 %>% filter(Role != "formand") %>% group_by(Party) %>% : could not find function "%>%"
+~~~
+{: .error}
+
+##tf_idf
+We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
+We can use the tf_idf calculation. Briefly, tf_idf looks at the words that occur among each party, and gives a high value to those that frequently occur in one party but rarely occur among the other parties. This will give us a sense of what each party emphasizes in their speeches about China
+
+First we need to calculate the tf_idf of each word in our tidy text
+
+~~~
+kina_tidy_tf_idf <- kina_tidy_blokke2 %>% 
+  filter(Role != "formand") %>% 
+  count(Party, word, sort = TRUE) %>% 
+  bind_tf_idf(word, Party, n) %>% 
+  arrange(desc(tf_idf))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in kina_tidy_blokke2 %>% filter(Role != "formand") %>% count(Party, : could not find function "%>%"
+~~~
+{: .error}
+
+Now let's make our plot. Most commands in our plot also appeared in our plot, but some have already been taken care of by the previous calculation of tf_idf
+
+
+~~~
+kina_tidy_tf_idf %>% 
+  group_by(Party) %>% 
+  top_n(10) %>% 
+  ungroup() %>% 
+  mutate(word = reorder_within(word, tf_idf, Party)) %>% 
+  ggplot(aes(tf_idf, word, fill = Party)) +
+  geom_col() +
+  facet_wrap(~Party, scales = "free") +
+  scale_y_reordered() +
+  labs(x = "tf_idf")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in kina_tidy_tf_idf %>% group_by(Party) %>% top_n(10) %>% ungroup() %>% : could not find function "%>%"
+~~~
+{: .error}
 
 
 
@@ -130,10 +209,4 @@ You can also embed plots, for example:
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
-~~~
-library(tidyverse)
-library(tm)
-read.delim("../data/AFINN dansk.txt")
-~~~
-{: .language-r}
 
