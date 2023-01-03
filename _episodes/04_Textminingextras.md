@@ -67,7 +67,7 @@ data <- files %>%
 This may take up to 10 minutes. Once you have read all the files in as one tibble, you want to make it into one new file, so that you can quickly load the whole dataset in next time. Run the following code to write the file but insert the place on the C drive via the tabulator-function and finish the string with the name of your new file and put .txt after the filename:
 
 ~~~
-write_delim(data, "C:/Users/yourusername/Desktop/Folder/Folketinget/kina.txt")
+write_delim(data, "C:/Users/yourusername/Desktop/Folder/Folketinget/filename.txt")
 ~~~
 {: .language-r}
 
