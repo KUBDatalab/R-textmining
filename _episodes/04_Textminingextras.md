@@ -5,7 +5,7 @@ title: "Episode 4 text mining extras"
 teaching: 0
 exercises: 0
 questions:
-- "More ressources"
+- "More resources"
 objectives:
 - "Learning about extra tools that can aid your text mining journey"
 keypoints:
@@ -16,35 +16,32 @@ keypoints:
 
 
 
-## R Markdown
+How to download the full dataset:
+Go to https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44 and click the blue button that says: Download all files in item. This will download all approximately 860 files in Zip folder. 
+The Zip folder contains zip folders for each year in the dataset, and these zip folders contain the parliament debates and the metadata as .txt files.
+You need to create a new folder somewhere outside the zip folder.
+Now you must copy-paste all .txt files to that new folder. You can go into each zip-folder, press Ctrl+a to mark all files, and then press Ctrl+c to copy them
+Go to the new folder and press Ctrl+v
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
+To import the files into R as one tibble, you must first set the working directory to your new folder. Then run the following code:
 
 ~~~
-summary(cars)
+files <- dir(pattern = "*.txt")
+
+data <- files %>% 
+  map(read_delim) %>% 
+  reduce(rbind)
 ~~~
 {: .language-r}
 
-
+This may take up to 10 minutes. Once you have read all the files in as one tibble, you want to make it into one new file, so that you can quickly load the whole dataset in next time. Run the following code to write the file but insert the place on the C drive via the tabulator-function and finish the string with the name of your new file and put .txt after the filename:
 
 ~~~
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
+write_delim(data, "C:/Users/yourusername/Desktop/Folder/Folketinget/kina.txt")
 ~~~
-{: .output}
+{: .language-r}
 
-## Including Plots
+Now you can quickly load it in next time by using `read_delim`
 
-You can also embed plots, for example:
 
-<img src="../fig/rmd-03-pressure-1.png" alt="plot of chunk pressure" width="612" style="display: block; margin: auto;" />
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
