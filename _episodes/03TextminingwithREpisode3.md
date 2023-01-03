@@ -77,14 +77,6 @@ kina_tidy_blokke %>%
 
 
 ~~~
-Warning: `tbl_df()` was deprecated in dplyr 1.0.0.
-ℹ Please use `tibble::as_tibble()` instead.
-~~~
-{: .warning}
-
-
-
-~~~
 Selecting by n
 ~~~
 {: .output}
