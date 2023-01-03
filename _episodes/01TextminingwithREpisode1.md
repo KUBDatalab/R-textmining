@@ -19,17 +19,10 @@ keypoints:
 
 ## R Markdown
 ## What is text mining?
-Text mining refers to the use of digital tools to enable automatized analyses of text data. These analyses can enable insight into a collection of texts that can be
-difficult to spot with the naked eye. Furthermore, text mining tools allow the user to analyze large samples of texts and visualize the results
+Text mining refers to the use of digital tools to enable automatized analyses of text data. These analyses can enable insight into a collection of texts that can be difficult to spot with the naked eye. Furthermore, text mining tools allow the user to analyze large samples of texts and visualize the results
 
 ## Installing and loading relevant libraries
 We need to install some libraries that can perform the various steps in text analysis, because the base functions of R are not enough. Then we need to load them
-
-Documentation for each package: <br>
-*https://www.tidyverse.org/packages/ <br>
-*https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html <br>
-*https://cran.r-project.org/web/packages/tm/tm.pdf <br>
-
 
 
 ~~~
@@ -42,9 +35,14 @@ library(tm)
 ~~~
 {: .language-r}
 
+Documentation for each package: <br>
+*https://www.tidyverse.org/packages/ <br>
+*https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html <br>
+*https://cran.r-project.org/web/packages/tm/tm.pdf <br>
+
 ## Delimiting and loading dataset
 The dataset that we will load is a collection of all debates in the Danish Parliament (Folketinget) from fall 2009 to spring 2017. In the Danish Parliament, every word from every speech in the debates is written in down in the summary. Furthermore, all speeches are described by useful and thorough metadata that allow for insightful analyses. The dataset was originally retrieved at
-https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44, and has been prepared for today's course. We are going to work with a filtered dataset that contains all parliament debates about China. Similarly, debates about any other country could have been filtered for analysis.
+https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44, and has been prepared for today's course. We are going to work with a filtered dataset that contains all parliament speeches on the topic of China. Similarly, debates about any other country could have been filtered for analysis.
 
 **The steps for delimiting the dataset were the following:
 We read the dataset into RStudio and saved it as a tibble
@@ -69,7 +67,7 @@ data_kina <- data_kina %>%
     !str_detect(\`Agenda title\`, "maskinarbejder")
   ) 
 
-Now that the dataset was properly filtered to parliament speeches on China we wrote it as a txt.-file, so that it can easily be loaded into RStudio by you
+Now that the dataset was properly filtered to parliament speeches about China, we wrote it as a txt.-file, so that it can easily be loaded into RStudio by you
 
 
 ~~~

@@ -59,7 +59,7 @@ Selecting by n
 
 <img src="../fig/rmd-03-unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
 
-Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then anti_join it with the dataset, just like we did for the already exisitng stopword list.
+Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then `anti_join` it with the dataset, just like we did for the already existing stopword list.
 
 First we look at the top 70 words to find the stopwords for our custom stopword list
 
@@ -176,7 +176,7 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
 ~~~
 {: .language-r}
 
-We then do an anti_join
+We then do an `anti_join`of our custom stopword list to our tidy text
 
 
 ~~~
@@ -215,7 +215,7 @@ Selecting by n
 
 ##tf_idf
 We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
-We can use the tf_idf calculation. Briefly, tf_idf looks at the words that occur among each party, and gives a high value to those that frequently occur in one party but rarely occur among the other parties. This will give us a sense of what each party emphasizes in their speeches about China
+We can use the tf_idf calculation. Briefly, tf_idf in this case looks at the words that occur among each party, and gives a high value to those that frequently occur in one party but rarely occur among the other parties. This will give us a sense of what each party emphasizes in their speeches about China
 
 First we need to calculate the tf_idf of each word in our tidy text
 
@@ -228,7 +228,7 @@ kina_tidy_tf_idf <- kina_tidy_blokke2 %>%
 ~~~
 {: .language-r}
 
-Now let's make our plot. Most commands in our plot also appeared in our plot, but some have already been taken care of by the previous calculation of tf_idf
+Now let's make our plot. Most commands in our plot here also appeared in our plot of word frequency, but some have already been taken care of by the previous calculation of tf_idf
 
 
 ~~~
