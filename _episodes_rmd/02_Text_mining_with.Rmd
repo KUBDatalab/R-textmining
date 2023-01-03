@@ -5,9 +5,9 @@ exercises: 0
 questions:
 - "How do we prepare text for analysis and measure the sentiment of the text?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Using specific packages to perform text preparation and sentiment analysis"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "All natural language texst must be prepared for analysis"
 ---
 
 
