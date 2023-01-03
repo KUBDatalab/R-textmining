@@ -5,7 +5,7 @@ title: "Episode 2 tidytext, stopwords, and sentiment analysis"
 teaching: 0
 exercises: 0
 questions:
-- "What is a model?"
+- "How do we prepare text for analysis and measure the sentiment of the text?"
 objectives:
 - "First learning objective. (FIXME)"
 keypoints:
@@ -19,61 +19,16 @@ keypoints:
 
 ## R Markdown
 ## loading our libraries and reading our data
-Let us now load our libraries and read the downloaded dataset into a tibble. We use tidyverse's read_delim to read the downloaded dataset as a tibble
+Let us now load our libraries
 
 ~~~
 library(tidyverse)
-~~~
-{: .language-r}
-
-
-
-~~~
-── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.0      ✔ purrr   1.0.0 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-✔ readr   2.1.3      ✔ forcats 0.5.2 
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-~~~
-{: .output}
-
-
-
-~~~
 library(tidytext)
 library(tm)
 ~~~
 {: .language-r}
 
 
-
-~~~
-Loading required package: NLP
-
-Attaching package: 'NLP'
-
-The following object is masked from 'package:ggplot2':
-
-    annotate
-~~~
-{: .output}
-
-
-
-~~~
-kina <- read_delim("data/kina.txt")
-~~~
-{: .language-r}
-
-
-
-~~~
-Error: 'data/kina.txt' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
-~~~
-{: .error}
 
 
 ## Understanding our data
@@ -88,9 +43,21 @@ head(kina)
 
 
 ~~~
-Error in head(kina): object 'kina' not found
+# A tibble: 6 × 19
+  ID          Date       Start …¹ End ti…²  Time Agend…³ Case …⁴ Case …⁵ Agend…⁶
+  <chr>       <date>     <time>   <time>   <dbl> <chr>     <dbl> <chr>   <chr>  
+1 2010011214… 2010-01-12 14:37:05 14:37:25    20 2010-0…      61 B       1. beh…
+2 2010011214… 2010-01-12 14:37:25 14:47:59   634 2010-0…      61 B       1. beh…
+3 2010011214… 2010-01-12 14:47:59 14:48:05     6 2010-0…      61 B       1. beh…
+4 2010011214… 2010-01-12 14:48:05 14:49:01    56 2010-0…      61 B       1. beh…
+5 2010011214… 2010-01-12 14:49:01 14:49:03     2 2010-0…      61 B       1. beh…
+6 2010011214… 2010-01-12 14:49:03 14:49:47    44 2010-0…      61 B       1. beh…
+# … with 10 more variables: `Subject 1` <chr>, `Subject 2` <chr>, Name <chr>,
+#   Gender <chr>, Party <chr>, Role <chr>, Title <chr>, Birth <date>,
+#   Age <dbl>, Text <chr>, and abbreviated variable names ¹​`Start time`,
+#   ²​`End time`, ³​`Agenda item`, ⁴​`Case no`, ⁵​`Case type`, ⁶​`Agenda title`
 ~~~
-{: .error}
+{: .output}
 
 We see that we have a lot of metadata, including the date of the speech, the start and end time of the speech, the discussed resolutions/law proposals and their classifications into subjects, as well as various personal information about the speaker. The last column is called `Text` and this contains the speech itself
 
@@ -133,18 +100,18 @@ Now we read need to read the AFINN Index into a tibble and rename the columns
 
 
 ~~~
-AFINN <- read_delim("data/AFINN_dansk.txt")
+AFINN <- read_delim("data/AFINN_dansk.txt", col_names = FALSE)
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Rows: 3551 Columns: 2
+Rows: 3552 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: "\t"
-chr (1): absorberet
-dbl (1): 1
+chr (1): X1
+dbl (1): X2
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -196,7 +163,14 @@ kina_tidy <- kina %>%
 
 
 ~~~
-Error in is_grouped_df(tbl): object 'kina' not found
+Joining, by = "word"
+~~~
+{: .output}
+
+
+
+~~~
+Error in is.data.frame(y): object 'AFINN_dansk' not found
 ~~~
 {: .error}
 
@@ -285,34 +259,3 @@ Error in filter(., Role != "formand"): object 'kina_tidy_blokke' not found
 ~~~
 {: .language-r}
 
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-
-~~~
-summary(cars)
-~~~
-{: .language-r}
-
-
-
-~~~
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
-~~~
-{: .output}
-
-## Including Plots
-
-You can also embed plots, for example:
-
-<img src="../fig/rmd-02-pressure-1.png" alt="plot of chunk pressure" width="612" style="display: block; margin: auto;" />
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
