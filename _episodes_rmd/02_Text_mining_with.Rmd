@@ -122,8 +122,7 @@ kina_tidy %>%
   arrange(desc(mean_sentiment_value)) %>% 
   ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
   geom_col() +
-  labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest
-#y-value
+  labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value
 ```
 
 ## Analyzing the sentiment of rød and blå blok
@@ -150,8 +149,6 @@ kina_tidy_blokke %>%
   ggplot(aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
   scale_fill_manual(values = c("blue", "red")) +
-  labs(x= "Blok") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest
-#y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse
-#order of how the columns appear in the chart
+  labs(x= "Blok") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse order of how the columns appear in the chart
 ```
 
