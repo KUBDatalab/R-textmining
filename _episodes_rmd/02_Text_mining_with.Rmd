@@ -117,7 +117,7 @@ kina_tidy %>%
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   summarize(
-    mean_sentiment_value = mean(sentiment_value, na.rm=T) #Brug måske sum i stedet
+    mean_sentiment_value = mean(sentiment_value, na.rm=T)
   ) %>% 
   arrange(desc(mean_sentiment_value)) %>% 
   ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
@@ -143,7 +143,7 @@ kina_tidy_blokke %>%
   filter(Role != "formand") %>% 
   group_by(Blok) %>% 
   summarize(
-    mean_sentiment_value = mean(sentiment_value, na.rm=T) #Brug måske sum i stedet
+    mean_sentiment_value = mean(sentiment_value, na.rm=T)
   ) %>% 
   arrange(desc(mean_sentiment_value)) %>% 
   ggplot(aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), y = mean_sentiment_value, fill = Blok)) + 
