@@ -80,7 +80,7 @@ Unfortunately for us, most of the most common words are words that act like stop
 
 First we look at the top 70 words to find the stopwords for our custom stopword list
 
-```{r}
+```{r, warning = FALSE}
 
 kina_tidy_blokke %>% 
   filter(Role != "formand") %>% 
