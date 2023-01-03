@@ -7,7 +7,7 @@ questions:
 objectives:
 - "Using specific packages to perform text preparation and sentiment analysis"
 keypoints:
-- "All natural language texst must be prepared for analysis"
+- "All natural language texts must be prepared for analysis"
 ---
 
 
