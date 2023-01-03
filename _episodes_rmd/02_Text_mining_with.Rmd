@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## R Markdown
-## loading our libraries and reading our data
+## Loading our libraries and reading our data
 Let us now load our libraries
 ```{r, eval = TRUE, message = FALSE}
 library(tidyverse)
@@ -45,7 +45,7 @@ head(kina)
 
 We see that we have a lot of metadata, including the date of the speech, the start and end time of the speech, the discussed resolutions/law proposals and their classifications into subjects, as well as various personal information about the speaker. The last column is called `Text` and this contains the speech itself
 
-## introduction to tidytext and tokenization
+## Introduction to tidytext and tokenization
 To analyze the speeches we need to make the text tidy. Tidy text refers to a dataset where each text has been split up into the individual words that make up the speech. [insert visualization of how words in one row are split into multiple rows]
 
 Splitting texts, in our case speeches, into individual words is called tokenization [insert visualization of tokenization of a sentence]
@@ -78,9 +78,9 @@ download.file("https://raw.githubusercontent.com/swillerhansen/R-textmining/main
 
 Now we read need to read the AFINN Index into a tibble and rename the columns
 
-```{r}
+```{r, message = FALSE}
 AFINN <- read_delim("data/AFINN_dansk.txt", col_names = FALSE)
-AFINN_dansk <- AFINN_dansk %>% 
+AFINN_dansk <- AFINN %>% 
   rename(
     word = X1,
     sentiment_value = X2)
@@ -102,7 +102,7 @@ Filtering joins work by filtering away some rows in the tibble. We will use the 
 
 For more info on joins see https://r4ds.had.co.nz/relational-data.html
 
-```{r}
+```{r, message = FALSE}
 kina_tidy <- kina %>% 
   unnest_tokens(word, Text) %>% #tidytext tokenization
   anti_join(stopwords_dansk) %>% #stopwords in Danish
