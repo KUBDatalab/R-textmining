@@ -5,11 +5,11 @@ title: "Episode 3 word frequency analysis"
 teaching: 0
 exercises: 0
 questions:
-- "What is a model?"
+- "How can we find the most frequent terms from each party?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Learning how to analyze term frequency and visualize it"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Custom stopword list may be necessary depending on the context"
 ---
 
 
@@ -17,8 +17,21 @@ keypoints:
 
 
 ## R Markdown
+
+
+~~~
+library(tidyverse)
+library(tidytext)
+library(tm)
+~~~
+{: .language-r}
+
+
+
+
 ## Word frequency
 Now that we have seen the average sentiment of the parties, we want to get a deeper understanding of what they talk about when discussing China. We can calculate the most frequent words that each party uses, and then visualize that to get an impression of what they talk about when discussing China.
+
 
 
 ~~~
@@ -40,7 +53,7 @@ kina_tidy_blokke %>%
 
 
 ~~~
-Error in kina_tidy_blokke %>% filter(Role != "formand") %>% group_by(Party) %>% : could not find function "%>%"
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke' not found
 ~~~
 {: .error}
 
@@ -62,7 +75,15 @@ kina_tidy_blokke %>%
 
 
 ~~~
-Error in kina_tidy_blokke %>% filter(Role != "formand") %>% count(word, : could not find function "%>%"
+Warning: `tbl_df()` was deprecated in dplyr 1.0.0.
+ℹ Please use `tibble::as_tibble()` instead.
+~~~
+{: .warning}
+
+
+
+~~~
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke' not found
 ~~~
 {: .error}
 
@@ -81,13 +102,6 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", "altså", : could not find function "tibble"
-~~~
-{: .error}
-
 We then do an anti_join
 
 
@@ -100,7 +114,7 @@ kina_tidy_blokke2 <- kina_tidy_blokke %>%
 
 
 ~~~
-Error in kina_tidy_blokke %>% anti_join(custom_stopwords, by = "word"): could not find function "%>%"
+Error in anti_join(., custom_stopwords, by = "word"): object 'kina_tidy_blokke' not found
 ~~~
 {: .error}
 
@@ -126,7 +140,7 @@ kina_tidy_blokke2 %>%
 
 
 ~~~
-Error in kina_tidy_blokke2 %>% filter(Role != "formand") %>% group_by(Party) %>% : could not find function "%>%"
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke2' not found
 ~~~
 {: .error}
 
@@ -148,7 +162,7 @@ kina_tidy_tf_idf <- kina_tidy_blokke2 %>%
 
 
 ~~~
-Error in kina_tidy_blokke2 %>% filter(Role != "formand") %>% count(Party, : could not find function "%>%"
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke2' not found
 ~~~
 {: .error}
 
@@ -172,41 +186,7 @@ kina_tidy_tf_idf %>%
 
 
 ~~~
-Error in kina_tidy_tf_idf %>% group_by(Party) %>% top_n(10) %>% ungroup() %>% : could not find function "%>%"
+Error in group_by(., Party): object 'kina_tidy_tf_idf' not found
 ~~~
 {: .error}
-
-
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-
-~~~
-summary(cars)
-~~~
-{: .language-r}
-
-
-
-~~~
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
-~~~
-{: .output}
-
-## Including Plots
-
-You can also embed plots, for example:
-
-<img src="../fig/rmd-03-pressure-1.png" alt="plot of chunk pressure" width="612" style="display: block; margin: auto;" />
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
 

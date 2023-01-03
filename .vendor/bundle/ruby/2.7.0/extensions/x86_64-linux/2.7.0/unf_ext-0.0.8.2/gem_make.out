@@ -1,5 +1,5 @@
 current directory: /home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext
-/opt/hostedtoolcache/Ruby/2.7.7/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/2.7.7/x64/lib/ruby/2.7.0 -r ./siteconf20230103-12411-1dykvmf.rb extconf.rb
+/opt/hostedtoolcache/Ruby/2.7.7/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/2.7.7/x64/lib/ruby/2.7.0 -r ./siteconf20230103-12589-l1o6ab.rb extconf.rb
 checking for -lstdc++... yes
 creating Makefile
 
@@ -7,100 +7,82 @@ current directory: /home/runner/work/R-textmining/R-textmining/.vendor/bundle/ru
 make "DESTDIR=" clean
 make[1]: Entering directory '/home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext'
 Makefile:176: warning: overriding recipe for target 'clean'
-Ðb
-oU:176: warning: ignoring old recipe for target 'clean'
+Ðâ1©iU:176: warning: ignoring old recipe for target 'clean'
 Makefile:183: warning: overriding recipe for target 'distclean'
-Ðb
-oU:183: warning: ignoring old recipe for target 'distclean'
+Ðâ1©iU:183: warning: ignoring old recipe for target 'distclean'
 Makefile:191: warning: overriding recipe for target 'install-so'
-Ðb
-oU:191: warning: ignoring old recipe for target 'install-so'
+Ðâ1©iU:191: warning: ignoring old recipe for target 'install-so'
 Makefile:201: warning: overriding recipe for target 'pre-install-rb-default'
-Ðb
-oU:201: warning: ignoring old recipe for target 'pre-install-rb-default'
+Ðâ1©iU:201: warning: ignoring old recipe for target 'pre-install-rb-default'
 Makefile:203: warning: overriding recipe for target '.sitearchdir.time'
-Ðb
-oU:203: warning: ignoring old recipe for target '.sitearchdir.time'
+Ðâ1©iU:203: warning: ignoring old recipe for target '.sitearchdir.time'
 Makefile:213: warning: overriding recipe for target '.cc.o'
-Ðb
-oU:213: warning: ignoring old recipe for target '.cc.o'
+Ðâ1©iU:213: warning: ignoring old recipe for target '.cc.o'
 Makefile:217: warning: overriding recipe for target '.cc.S'
-Ðb
-oU:217: warning: ignoring old recipe for target '.cc.S'
+Ðâ1©iU:217: warning: ignoring old recipe for target '.cc.S'
 Makefile:221: warning: overriding recipe for target '.mm.o'
-Ðb
-oU:221: warning: ignoring old recipe for target '.mm.o'
+Ðâ1©iU:221: warning: ignoring old recipe for target '.mm.o'
 Makefile:225: warning: overriding recipe for target '.mm.S'
-Ðb
-oU:225: warning: ignoring old recipe for target '.mm.S'
+Ðâ1©iU:225: warning: ignoring old recipe for target '.mm.S'
 Makefile:229: warning: overriding recipe for target '.cxx.o'
-Ðb
-oU:229: warning: ignoring old recipe for target '.cxx.o'
+Ðâ1©iU:229: warning: ignoring old recipe for target '.cxx.o'
 Makefile:233: warning: overriding recipe for target '.cxx.S'
-Ðb
-oU:233: warning: ignoring old recipe for target '.cxx.S'
+Ðâ1©iU:233: warning: ignoring old recipe for target '.cxx.S'
 Makefile:237: warning: overriding recipe for target '.cpp.o'
-Ðb
-oU:237: warning: ignoring old recipe for target '.cpp.o'
+Ðâ1©iU:237: warning: ignoring old recipe for target '.cpp.o'
 Makefile:241: warning: overriding recipe for target '.cpp.S'
-Ðb
-oU:241: warning: ignoring old recipe for target '.cpp.S'
+Ðâ1©iU:241: warning: ignoring old recipe for target '.cpp.S'
 Makefile:245: warning: overriding recipe for target '.c.o'
-Ðb
-oU:245: warning: ignoring old recipe for target '.c.o'
+Ðâ1©iU:245: warning: ignoring old recipe for target '.c.o'
 Makefile:249: warning: overriding recipe for target '.c.S'
-Ðb
-oU:249: warning: ignoring old recipe for target '.c.S'
+Ðâ1©iU:249: warning: ignoring old recipe for target '.c.S'
 Makefile:253: warning: overriding recipe for target '.m.o'
-Ðb
-oU:253: warning: ignoring old recipe for target '.m.o'
+Ðâ1©iU:253: warning: ignoring old recipe for target '.m.o'
 Makefile:257: warning: overriding recipe for target '.m.S'
-Ðb
-oU:257: warning: ignoring old recipe for target '.m.S'
+Ðâ1©iU:257: warning: ignoring old recipe for target '.m.S'
 Makefile:261: warning: overriding recipe for target 'unf_ext.so'
-Ðb
-oU:261: warning: ignoring old recipe for target 'unf_ext.so'
+Ðâ1©iU:261: warning: ignoring old recipe for target 'unf_ext.so'
 make[1]: Leaving directory '/home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext'
 
 current directory: /home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext
 make "DESTDIR="
 make[1]: Entering directory '/home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext'
 Makefile:176: warning: overriding recipe for target 'clean'
-Ð’~qåU:176: warning: ignoring old recipe for target 'clean'
+Ð’e6V:176: warning: ignoring old recipe for target 'clean'
 Makefile:183: warning: overriding recipe for target 'distclean'
-Ð’~qåU:183: warning: ignoring old recipe for target 'distclean'
+Ð’e6V:183: warning: ignoring old recipe for target 'distclean'
 Makefile:191: warning: overriding recipe for target 'install-so'
-Ð’~qåU:191: warning: ignoring old recipe for target 'install-so'
+Ð’e6V:191: warning: ignoring old recipe for target 'install-so'
 Makefile:201: warning: overriding recipe for target 'pre-install-rb-default'
-Ð’~qåU:201: warning: ignoring old recipe for target 'pre-install-rb-default'
+Ð’e6V:201: warning: ignoring old recipe for target 'pre-install-rb-default'
 Makefile:203: warning: overriding recipe for target '.sitearchdir.time'
-Ð’~qåU:203: warning: ignoring old recipe for target '.sitearchdir.time'
+Ð’e6V:203: warning: ignoring old recipe for target '.sitearchdir.time'
 Makefile:213: warning: overriding recipe for target '.cc.o'
-Ð’~qåU:213: warning: ignoring old recipe for target '.cc.o'
+Ð’e6V:213: warning: ignoring old recipe for target '.cc.o'
 Makefile:217: warning: overriding recipe for target '.cc.S'
-Ð’~qåU:217: warning: ignoring old recipe for target '.cc.S'
+Ð’e6V:217: warning: ignoring old recipe for target '.cc.S'
 Makefile:221: warning: overriding recipe for target '.mm.o'
-Ð’~qåU:221: warning: ignoring old recipe for target '.mm.o'
+Ð’e6V:221: warning: ignoring old recipe for target '.mm.o'
 Makefile:225: warning: overriding recipe for target '.mm.S'
-Ð’~qåU:225: warning: ignoring old recipe for target '.mm.S'
+Ð’e6V:225: warning: ignoring old recipe for target '.mm.S'
 Makefile:229: warning: overriding recipe for target '.cxx.o'
-Ð’~qåU:229: warning: ignoring old recipe for target '.cxx.o'
+Ð’e6V:229: warning: ignoring old recipe for target '.cxx.o'
 Makefile:233: warning: overriding recipe for target '.cxx.S'
-Ð’~qåU:233: warning: ignoring old recipe for target '.cxx.S'
+Ð’e6V:233: warning: ignoring old recipe for target '.cxx.S'
 Makefile:237: warning: overriding recipe for target '.cpp.o'
-Ð’~qåU:237: warning: ignoring old recipe for target '.cpp.o'
+Ð’e6V:237: warning: ignoring old recipe for target '.cpp.o'
 Makefile:241: warning: overriding recipe for target '.cpp.S'
-Ð’~qåU:241: warning: ignoring old recipe for target '.cpp.S'
+Ð’e6V:241: warning: ignoring old recipe for target '.cpp.S'
 Makefile:245: warning: overriding recipe for target '.c.o'
-Ð’~qåU:245: warning: ignoring old recipe for target '.c.o'
+Ð’e6V:245: warning: ignoring old recipe for target '.c.o'
 Makefile:249: warning: overriding recipe for target '.c.S'
-Ð’~qåU:249: warning: ignoring old recipe for target '.c.S'
+Ð’e6V:249: warning: ignoring old recipe for target '.c.S'
 Makefile:253: warning: overriding recipe for target '.m.o'
-Ð’~qåU:253: warning: ignoring old recipe for target '.m.o'
+Ð’e6V:253: warning: ignoring old recipe for target '.m.o'
 Makefile:257: warning: overriding recipe for target '.m.S'
-Ð’~qåU:257: warning: ignoring old recipe for target '.m.S'
+Ð’e6V:257: warning: ignoring old recipe for target '.m.S'
 Makefile:261: warning: overriding recipe for target 'unf_ext.so'
-Ð’~qåU:261: warning: ignoring old recipe for target 'unf_ext.so'
+Ð’e6V:261: warning: ignoring old recipe for target 'unf_ext.so'
 compiling unf.cc
 linking shared-object unf_ext.so
 make[1]: Leaving directory '/home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext'
@@ -109,40 +91,40 @@ current directory: /home/runner/work/R-textmining/R-textmining/.vendor/bundle/ru
 make "DESTDIR=" install
 make[1]: Entering directory '/home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext'
 Makefile:176: warning: overriding recipe for target 'clean'
-Ð¢ì ²U:176: warning: ignoring old recipe for target 'clean'
+Ðò:176: warning: ignoring old recipe for target 'clean'
 Makefile:183: warning: overriding recipe for target 'distclean'
-Ð¢ì ²U:183: warning: ignoring old recipe for target 'distclean'
+Ðò:183: warning: ignoring old recipe for target 'distclean'
 Makefile:191: warning: overriding recipe for target 'install-so'
-Ð¢ì ²U:191: warning: ignoring old recipe for target 'install-so'
+Ðò:191: warning: ignoring old recipe for target 'install-so'
 Makefile:201: warning: overriding recipe for target 'pre-install-rb-default'
-Ð¢ì ²U:201: warning: ignoring old recipe for target 'pre-install-rb-default'
+Ðò:201: warning: ignoring old recipe for target 'pre-install-rb-default'
 Makefile:203: warning: overriding recipe for target '.sitearchdir.time'
-Ð¢ì ²U:203: warning: ignoring old recipe for target '.sitearchdir.time'
+Ðò:203: warning: ignoring old recipe for target '.sitearchdir.time'
 Makefile:213: warning: overriding recipe for target '.cc.o'
-Ð¢ì ²U:213: warning: ignoring old recipe for target '.cc.o'
+Ðò:213: warning: ignoring old recipe for target '.cc.o'
 Makefile:217: warning: overriding recipe for target '.cc.S'
-Ð¢ì ²U:217: warning: ignoring old recipe for target '.cc.S'
+Ðò:217: warning: ignoring old recipe for target '.cc.S'
 Makefile:221: warning: overriding recipe for target '.mm.o'
-Ð¢ì ²U:221: warning: ignoring old recipe for target '.mm.o'
+Ðò:221: warning: ignoring old recipe for target '.mm.o'
 Makefile:225: warning: overriding recipe for target '.mm.S'
-Ð¢ì ²U:225: warning: ignoring old recipe for target '.mm.S'
+Ðò:225: warning: ignoring old recipe for target '.mm.S'
 Makefile:229: warning: overriding recipe for target '.cxx.o'
-Ð¢ì ²U:229: warning: ignoring old recipe for target '.cxx.o'
+Ðò:229: warning: ignoring old recipe for target '.cxx.o'
 Makefile:233: warning: overriding recipe for target '.cxx.S'
-Ð¢ì ²U:233: warning: ignoring old recipe for target '.cxx.S'
+Ðò:233: warning: ignoring old recipe for target '.cxx.S'
 Makefile:237: warning: overriding recipe for target '.cpp.o'
-Ð¢ì ²U:237: warning: ignoring old recipe for target '.cpp.o'
+Ðò:237: warning: ignoring old recipe for target '.cpp.o'
 Makefile:241: warning: overriding recipe for target '.cpp.S'
-Ð¢ì ²U:241: warning: ignoring old recipe for target '.cpp.S'
+Ðò:241: warning: ignoring old recipe for target '.cpp.S'
 Makefile:245: warning: overriding recipe for target '.c.o'
-Ð¢ì ²U:245: warning: ignoring old recipe for target '.c.o'
+Ðò:245: warning: ignoring old recipe for target '.c.o'
 Makefile:249: warning: overriding recipe for target '.c.S'
-Ð¢ì ²U:249: warning: ignoring old recipe for target '.c.S'
+Ðò:249: warning: ignoring old recipe for target '.c.S'
 Makefile:253: warning: overriding recipe for target '.m.o'
-Ð¢ì ²U:253: warning: ignoring old recipe for target '.m.o'
+Ðò:253: warning: ignoring old recipe for target '.m.o'
 Makefile:257: warning: overriding recipe for target '.m.S'
-Ð¢ì ²U:257: warning: ignoring old recipe for target '.m.S'
+Ðò:257: warning: ignoring old recipe for target '.m.S'
 Makefile:261: warning: overriding recipe for target 'unf_ext.so'
-Ð¢ì ²U:261: warning: ignoring old recipe for target 'unf_ext.so'
-/usr/bin/install -c -m 0755 unf_ext.so ./.gem.20230103-12411-59wvar
+Ðò:261: warning: ignoring old recipe for target 'unf_ext.so'
+/usr/bin/install -c -m 0755 unf_ext.so ./.gem.20230103-12589-19zoqyu
 make[1]: Leaving directory '/home/runner/work/R-textmining/R-textmining/.vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.8.2/ext/unf_ext'
