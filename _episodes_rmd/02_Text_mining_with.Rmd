@@ -3,7 +3,7 @@ title: "Episode 2 tidytext, stopwords, and sentiment analysis"
 teaching: 0
 exercises: 0
 questions:
-- "What is a model?"
+- "How do we prepare text for analysis and measure the sentiment of the text?"
 objectives:
 - "First learning objective. (FIXME)"
 keypoints:
@@ -22,14 +22,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 ## loading our libraries and reading our data
-Let us now load our libraries and read the downloaded dataset into a tibble. We use tidyverse's read_delim to read the downloaded dataset as a tibble
-```{r}
+Let us now load our libraries
+```{r, eval = TRUE, message = FALSE}
 library(tidyverse)
 library(tidytext)
 library(tm)
-kina <- read_delim("data/kina.txt")
 ```
 
+
+```{r, eval = TRUE,  message = FALSE, purl = FALSE, echo = FALSE}
+library(tidyverse)
+
+kina <- read_delim("../data/kina.txt")
+```
 
 ## Understanding our data
 
@@ -74,7 +79,7 @@ download.file("https://raw.githubusercontent.com/swillerhansen/R-textmining/main
 Now we read need to read the AFINN Index into a tibble and rename the columns
 
 ```{r}
-AFINN <- read_delim("data/AFINN_dansk.txt")
+AFINN <- read_delim("data/AFINN_dansk.txt", col_names = FALSE)
 AFINN_dansk <- AFINN_dansk %>% 
   rename(
     word = X1,
@@ -150,21 +155,3 @@ kina_tidy_blokke %>%
 #order of how the columns appear in the chart
 ```
 
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
