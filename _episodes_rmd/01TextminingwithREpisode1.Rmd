@@ -3,11 +3,11 @@ title: "Episode 1 Loading data"
 teaching: 0
 exercises: 0
 questions:
-- "What is a model?"
+- "What is text mining and how do we load in the dataset?"
 objectives:
-- "First learning objective. (FIXME)"
+- "To be introduced to text mining and loading in text data"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Packages must be installed and loaded in, and dataset must be loaded in by typing commands"
 ---
 
 
@@ -34,7 +34,7 @@ Documentation for each package: <br>
 *https://cran.r-project.org/web/packages/tm/tm.pdf <br>
 
 
-```{r}
+```{r, eval = TRUE,  message = FALSE, purl = FALSE, echo = FALSE}
 install.packages("tidyverse")
 install.packages("tidytext")
 install.packages("tm")
@@ -52,25 +52,31 @@ We read the dataset into RStudio and saved it as a tibble
 data <- read_delim("C:/Users/swha/Desktop/Mappe/R/Tekstanalyse/Folketinget/1 fil 2009-2017/Folketingsreferater_2009_2017_samlet.txt")
 
 We wanted to convert the text in two of the columns to lowercase and save them in the tibble. Converting to lowercase makes filtering better, because we can find instances where the country name, which is normally in uppercase in Danish, appears as part of a compound noun or compound name, which is a common way that nouns and names are joined together to form new words and names in the Danish language
-data$`Agenda title`<- tolower(data$`Agenda title`)
+data$\\ `Agenda title` <- tolower(data$\\ `Agenda title`)
 data$Text <- tolower(data$Text)
 
-Now we needed to filter the data to speeches about China and save it as a tibble. We chose to filter on \`Ageenda title`\, because it gives the a complete list of speeches about China. If we were to use the speech text itself, we would have missed speeches about China that did not use the the name China or its derivative adjectives, compound nouns and compound names. str_detect allows us to find instances of speeches about China where the name or the adjective appears either on its own  or as part of other words
+Now we needed to filter the data to speeches about China and save it as a tibble. We chose to filter on \\ `Agenda title`, because it gives the a complete list of speeches about China. If we were to use the speech text itself, we would have missed speeches about China that did not use the the name China or its derivative adjectives, compound nouns and compound names. str_detect allows us to find instances of speeches about China where the name or the adjective appears either on its own  or as part of other words
 data_kina <- data %>% 
   filter(
-    str_detect(`Agenda title`, "kina") | str_detect(`Agenda title`, "kines")
+    str_detect(\\ `Agenda title`, "kina") | str_detect(\\ `Agenda title`, "kines")
   )
 
-To check that all the speeches relate to China, we wanted to have a list of all the different \`Agenda title`\s in the filtered data
-unique(data_kina$`Agenda title`)
+To check that all the speeches relate to China, we wanted to have a list of all the different \\ `Agenda title`s in the filtered data
+unique(data_kina$\\  `Agenda title`)
 
-We saw that one of the \`Agenda title\`s had the work "maskinarbejder" in it. The speeches on this \`Agenda title`\ obviously don't relate to China, so we filter the speeches on this \`Agenda title`\ away
+We saw that one of the \\ `Agenda title`s had the work "maskinarbejder" in it. The speeches on this \\ `Agenda title` obviously don't relate to China, so we filter the speeches on this \\ `Agenda title` away
 data_kina <- data_kina %>% 
   filter(
-    !str_detect(`Agenda title`, "maskinarbejder")
+    !str_detect(\\ `Agenda title`, "maskinarbejder")
   ) 
 
 Now that the dataset was properly filtered to parliament speeches on China we wrote it as a txt.-file, so that it can easily be loaded into RStudio by you
+
+```{r, eval = TRUE,  message = FALSE, purl = FALSE}
+library(tidyverse)
+
+kina <- read_delim("../data/kina.txt")
+```
 
 *To easily download the dataset there are a couple of steps.
 1. Open an RStudio Project. Click on the blue cube to open the `.Rproj`
@@ -85,21 +91,15 @@ dir.create("data")
 download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/kina.txt", "data/kina.txt", mode = "wb")
 ```
 
+The specific path we are using here is dependent on the specific setup. If you have 
+followed the recommendations for structuring your project-folder, it should be 
+this command:
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r, eval = FALSE,  message = FALSE, purl = FALSE}
+library(tidyverse)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+kina <- read_delim("data/kina.txt")
 
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -9,8 +9,6 @@ ensure
 end
 
 class TestMinitestMock < Minitest::Test
-  parallelize_me!
-
   def setup
     @mock = Minitest::Mock.new.expect(:foo, nil)
     @mock.expect(:meaning_of_life, 42)
@@ -258,6 +256,15 @@ class TestMinitestMock < Minitest::Test
     exp = "expected foo(:bar) => nil, got [foo(:bar) => nil]"
 
     assert_equal exp, e.message
+  end
+
+  def test_delegator_calls_are_propagated
+    delegator = Object.new
+    mock = Minitest::Mock.new delegator
+
+    refute delegator.nil?
+    refute mock.nil?
+    assert_mock mock
   end
 
   def test_handles_kwargs_in_error_message

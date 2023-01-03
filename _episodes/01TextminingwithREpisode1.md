@@ -5,11 +5,11 @@ title: "Episode 1 Loading data"
 teaching: 0
 exercises: 0
 questions:
-- "What is a model?"
+- "What is text mining and how do we load in the dataset?"
 objectives:
-- "First learning objective. (FIXME)"
+- "To be introduced to text mining and loading in text data"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Packages must be installed and loaded in, and dataset must be loaded in by typing commands"
 ---
 
 
@@ -32,98 +32,6 @@ Documentation for each package: <br>
 
 
 
-~~~
-install.packages("tidyverse")
-~~~
-{: .language-r}
-
-
-
-~~~
-Installing package into '/home/runner/work/_temp/Library'
-(as 'lib' is unspecified)
-~~~
-{: .output}
-
-
-
-~~~
-install.packages("tidytext")
-~~~
-{: .language-r}
-
-
-
-~~~
-Installing package into '/home/runner/work/_temp/Library'
-(as 'lib' is unspecified)
-~~~
-{: .output}
-
-
-
-~~~
-install.packages("tm")
-~~~
-{: .language-r}
-
-
-
-~~~
-Installing package into '/home/runner/work/_temp/Library'
-(as 'lib' is unspecified)
-~~~
-{: .output}
-
-
-
-~~~
-library(tidyverse)
-~~~
-{: .language-r}
-
-
-
-~~~
-── Attaching packages
-───────────────────────────────────────
-tidyverse 1.3.2 ──
-~~~
-{: .output}
-
-
-
-~~~
-✔ ggplot2 3.4.0      ✔ purrr   1.0.0 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-✔ readr   2.1.3      ✔ forcats 0.5.2 
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-~~~
-{: .output}
-
-
-
-~~~
-library(tidytext)
-library(tm)
-~~~
-{: .language-r}
-
-
-
-~~~
-Loading required package: NLP
-
-Attaching package: 'NLP'
-
-The following object is masked from 'package:ggplot2':
-
-    annotate
-~~~
-{: .output}
 
 ## Delimiting and loading dataset
 The dataset that we will load is a collection of all debates in the Danish Parliament (Folketinget) from fall 2009 to spring 2017. In the Danish Parliament, every word from every speech in the debates is written in down in the summary. Furthermore, all speeches are described by useful and thorough metadata that allow for insightful analyses. The dataset was originally retrieved at
@@ -134,25 +42,33 @@ We read the dataset into RStudio and saved it as a tibble
 data <- read_delim("C:/Users/swha/Desktop/Mappe/R/Tekstanalyse/Folketinget/1 fil 2009-2017/Folketingsreferater_2009_2017_samlet.txt")
 
 We wanted to convert the text in two of the columns to lowercase and save them in the tibble. Converting to lowercase makes filtering better, because we can find instances where the country name, which is normally in uppercase in Danish, appears as part of a compound noun or compound name, which is a common way that nouns and names are joined together to form new words and names in the Danish language
-data$`Agenda title`<- tolower(data$`Agenda title`)
+data$\\ `Agenda title` <- tolower(data$\\ `Agenda title`)
 data$Text <- tolower(data$Text)
 
-Now we needed to filter the data to speeches about China and save it as a tibble. We chose to filter on \`Ageenda title`\, because it gives the a complete list of speeches about China. If we were to use the speech text itself, we would have missed speeches about China that did not use the the name China or its derivative adjectives, compound nouns and compound names. str_detect allows us to find instances of speeches about China where the name or the adjective appears either on its own  or as part of other words
+Now we needed to filter the data to speeches about China and save it as a tibble. We chose to filter on \\ `Agenda title`, because it gives the a complete list of speeches about China. If we were to use the speech text itself, we would have missed speeches about China that did not use the the name China or its derivative adjectives, compound nouns and compound names. str_detect allows us to find instances of speeches about China where the name or the adjective appears either on its own  or as part of other words
 data_kina <- data %>% 
   filter(
-    str_detect(`Agenda title`, "kina") | str_detect(`Agenda title`, "kines")
+    str_detect(\\ `Agenda title`, "kina") | str_detect(\\ `Agenda title`, "kines")
   )
 
-To check that all the speeches relate to China, we wanted to have a list of all the different \`Agenda title`\s in the filtered data
-unique(data_kina$`Agenda title`)
+To check that all the speeches relate to China, we wanted to have a list of all the different \\ `Agenda title`s in the filtered data
+unique(data_kina$\\  `Agenda title`)
 
-We saw that one of the \`Agenda title\`s had the work "maskinarbejder" in it. The speeches on this \`Agenda title`\ obviously don't relate to China, so we filter the speeches on this \`Agenda title`\ away
+We saw that one of the \\ `Agenda title`s had the work "maskinarbejder" in it. The speeches on this \\ `Agenda title` obviously don't relate to China, so we filter the speeches on this \\ `Agenda title` away
 data_kina <- data_kina %>% 
   filter(
-    !str_detect(`Agenda title`, "maskinarbejder")
+    !str_detect(\\ `Agenda title`, "maskinarbejder")
   ) 
 
 Now that the dataset was properly filtered to parliament speeches on China we wrote it as a txt.-file, so that it can easily be loaded into RStudio by you
+
+
+~~~
+library(tidyverse)
+
+kina <- read_delim("../data/kina.txt")
+~~~
+{: .language-r}
 
 *To easily download the dataset there are a couple of steps.
 1. Open an RStudio Project. Click on the blue cube to open the `.Rproj`
@@ -178,34 +94,16 @@ download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/da
 ~~~
 {: .language-r}
 
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+The specific path we are using here is dependent on the specific setup. If you have 
+followed the recommendations for structuring your project-folder, it should be 
+this command:
 
 
 ~~~
-summary(cars)
+library(tidyverse)
+
+kina <- read_delim("data/kina.txt")
 ~~~
 {: .language-r}
 
 
-
-~~~
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
-~~~
-{: .output}
-
-## Including Plots
-
-You can also embed plots, for example:
-
-<img src="../fig/rmd-01-pressure-1.png" alt="plot of chunk pressure" width="612" style="display: block; margin: auto;" />
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

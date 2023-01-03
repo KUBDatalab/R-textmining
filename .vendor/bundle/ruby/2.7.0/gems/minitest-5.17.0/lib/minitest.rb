@@ -9,7 +9,7 @@ require "etc"
 # :include: README.rdoc
 
 module Minitest
-  VERSION = "5.16.3" # :nodoc:
+  VERSION = "5.17.0" # :nodoc:
 
   @@installed_at_exit ||= false
   @@after_run = []
@@ -823,7 +823,7 @@ module Minitest
     end
 
     def to_s # :nodoc:
-      aggregated_results(StringIO.new(binary_string)).string
+      aggregated_results(StringIO.new(''.b)).string
     end
 
     def summary # :nodoc:
@@ -835,14 +835,6 @@ module Minitest
 
       "%d runs, %d assertions, %d failures, %d errors, %d skips%s" %
         [count, assertions, failures, errors, skips, extra]
-    end
-
-    private
-
-    if '<3'.respond_to? :b
-      def binary_string; ''.b; end
-    else
-      def binary_string; ''.force_encoding(Encoding::ASCII_8BIT); end
     end
   end
 
