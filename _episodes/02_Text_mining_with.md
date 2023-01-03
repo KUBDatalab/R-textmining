@@ -18,7 +18,7 @@ keypoints:
 
 
 ## R Markdown
-## loading our libraries and reading our data
+## Loading our libraries and reading our data
 Let us now load our libraries
 
 ~~~
@@ -61,7 +61,7 @@ head(kina)
 
 We see that we have a lot of metadata, including the date of the speech, the start and end time of the speech, the discussed resolutions/law proposals and their classifications into subjects, as well as various personal information about the speaker. The last column is called `Text` and this contains the speech itself
 
-## introduction to tidytext and tokenization
+## Introduction to tidytext and tokenization
 To analyze the speeches we need to make the text tidy. Tidy text refers to a dataset where each text has been split up into the individual words that make up the speech. [insert visualization of how words in one row are split into multiple rows]
 
 Splitting texts, in our case speeches, into individual words is called tokenization [insert visualization of tokenization of a sentence]
@@ -101,39 +101,12 @@ Now we read need to read the AFINN Index into a tibble and rename the columns
 
 ~~~
 AFINN <- read_delim("data/AFINN_dansk.txt", col_names = FALSE)
-~~~
-{: .language-r}
-
-
-
-~~~
-Rows: 3552 Columns: 2
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: "\t"
-chr (1): X1
-dbl (1): X2
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
-
-
-
-~~~
-AFINN_dansk <- AFINN_dansk %>% 
+AFINN_dansk <- AFINN %>% 
   rename(
     word = X1,
     sentiment_value = X2)
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in rename(., word = X1, sentiment_value = X2): object 'AFINN_dansk' not found
-~~~
-{: .error}
 
 ## Bringing it all together: joins
 We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together according to based on columns and rows that they have in common
@@ -160,20 +133,6 @@ kina_tidy <- kina %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Joining, by = "word"
-~~~
-{: .output}
-
-
-
-~~~
-Error in is.data.frame(y): object 'AFINN_dansk' not found
-~~~
-{: .error}
-
 ## Analyzing the sentiment of parties
 We would like to measure the sentiment of each party when giving speeches on the topic of China
 
@@ -192,14 +151,7 @@ kina_tidy %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in filter(., Role != "formand"): object 'kina_tidy' not found
-~~~
-{: .error}
-
-
+<img src="../fig/rmd-02-unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
 
 ~~~
 #y-value
@@ -219,13 +171,6 @@ kina_tidy_blokke <- kina_tidy %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in left_join(., blok, by = "Party"): object 'kina_tidy' not found
-~~~
-{: .error}
-
 Now we would like to do the same analysis of mean sentiment value, this time for each blok. We also want to specify that the column for roed_bloek should be red and the column for blaa_blok should be blue
 
 
@@ -244,14 +189,7 @@ kina_tidy_blokke %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in filter(., Role != "formand"): object 'kina_tidy_blokke' not found
-~~~
-{: .error}
-
-
+<img src="../fig/rmd-02-unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
 
 ~~~
 #y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse
