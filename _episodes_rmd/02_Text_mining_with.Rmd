@@ -50,7 +50,7 @@ To analyze the speeches we need to make the text tidy. Tidy text refers to a dat
 
 Splitting texts, in our case speeches, into individual words is called tokenization [insert visualization of tokenization of a sentence]
 
-Tokenization of text into individual words is necessary for text mining because it allows us to analyze the text closely and in detail, analyses which can later be visualized to understand the patterns of the text. Tokenization is language independent, as long as the language is written in an alphabet or syllabary that uses spaces between words. When tokenizating our text to make it tidy, the metadata that describe the whole speech are carried over to also describe the individual word. Thus we can split the text into individual words but still keep track of who said that word and when they did.
+Tokenization of text into individual words is necessary for text mining because it allows us to analyze the text closely and in detail, analyses which can later be visualized to understand the patterns of the text. Tokenization is language independent, as long as the language is written in an alphabet or syllabary that uses spaces between words. When tokenizing our text to make it tidy, the metadata that describe the whole speech are carried over to also describe the individual word. Thus we can split the text into individual words but still keep track of who said that word and when they did.
 
 We use the tidytext library for tokenization
 
@@ -59,7 +59,7 @@ In all natural language texts, frequent words that carry little meaning by thems
 
 The frequent low-meaning words need to be removed because they do not add anything to our understanding of the texts and are just noise
 
-The tm library contains a list of stopwords for Danish, which we'll make into a tibble. We have to specify that the list of stopwrds that we want to call is the list for the Danish language. We also rename the tibble column that contains the stopwords. Note that stopword lists are also available for most major European languages
+The tm library contains a list of stopwords for Danish, which we'll make into a tibble. We have to specify that the list of stopwords that we want to call is the list for the Danish language. We also rename the tibble column that contains the stopwords. Note that stopword lists are also available for most major European languages
 
 ```{r}
 stopwords_dansk <- as_tibble(stopwords(kind = "danish"))
@@ -68,7 +68,7 @@ stopwords_dansk <- stopwords_dansk %>%
 ```
 
 ## Sentiment analysis
-Sentiment analysis is a method for measuring the sentiment of a text. To do this, it is necessary to have a list of words that have been assigned to a certain sentiment. This can be a simple assignation of words into positive and negative, it can be an assignation to one among a multitude of categories, and the word can have a value on a scale. In this course we will use the AFINN index for Danish, which assigns approximately 3500 words on a scale from +5 to -5. This will enable us to compare the overall sentiment of the various speeches. As a side note, AFINN index is also available in English. 
+Sentiment analysis is a method for measuring the sentiment of a text. To do this, it is necessary to have a list of words that have been assigned to a certain sentiment. This can be a simple assignation of words into positive and negative, it can be an assignation to one among a multitude of categories, and the word can have a value on a scale. In this course we will use the AFINN index for Danish, which assigns approximately 3500 words on a scale from +5 to -5. This will enable us to calculate and compare the overall sentiment of the various speeches. As a side note, AFINN index is also available in English. 
 
 We need to download the AFINN Index from GitHub
 
@@ -87,7 +87,7 @@ AFINN_dansk <- AFINN %>%
 ```
 
 ## Bringing it all together: joins
-We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together according to based on columns and rows that they have in common
+We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together based on columns and rows that they have in common
 
 There are fundamentally 2 types of joins:
 Mutating joins (which add columns)
@@ -126,7 +126,7 @@ kina_tidy %>%
 ```
 
 ## Analyzing the sentiment of rød and blå blok
-We would also like to analyze the sentiment of rød and blå blok. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok and put that in a tibble, then bind the two tibbles into one tibble, and then make a left_join to the rows in our tidy text
+We would also like to analyze the sentiment of rød and blå blok as a whole respectively. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok and put that in a tibble, then bind the two tibbles into one tibble, and then make a left_join to the rows in our tidy text
 
 ```{r}
 roed_blok = tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
