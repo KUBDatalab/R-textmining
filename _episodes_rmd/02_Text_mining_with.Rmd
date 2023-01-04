@@ -73,7 +73,7 @@ Sentiment analysis is a method for measuring the sentiment of a text. To do this
 We need to download the AFINN Index from GitHub
 
 ```{r eval = F}
-download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/AFINN%20dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/AFINN_dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
 ```
 
 Now we read need to read the AFINN Index into a tibble and rename the columns
