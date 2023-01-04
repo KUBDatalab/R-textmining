@@ -43,10 +43,11 @@ library(tidytext)
 library(tm)
 ```
 
-Documentation for each package: <br>
-*https://www.tidyverse.org/packages/ <br>
-*https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html <br>
-*https://cran.r-project.org/web/packages/tm/tm.pdf <br>
+Documentation for each package:
+
+* [tidyverse](https://www.tidyverse.org/packages/)
+* [tidytext](https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html)
+* [tm](https://cran.r-project.org/web/packages/tm/tm.pdf)
 
 ## Delimiting and loading dataset
 The dataset that we will load is a collection of all debates in the Danish Parliament (Folketinget) from fall 2009 to spring 2017. In the Danish Parliament, every word from every speech in the debates is written in down in the summary. Furthermore, all speeches are described by useful and thorough metadata that allow for insightful analyses. The dataset was originally retrieved at
