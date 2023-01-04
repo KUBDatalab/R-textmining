@@ -27,7 +27,14 @@ Text mining refers to the use of digital tools to enable automatized analyses of
 ## Installing and loading relevant libraries
 We need to install some libraries that can perform the various steps in text analysis, because the base functions of R are not enough. Then we need to load them
 
-```{r, eval = TRUE,  message = FALSE, purl = FALSE}
+```{r indlæs_libraries, message = F, warning = F}
+library(tidyverse)
+library(tidytext)
+library(tm)
+```
+
+
+```{r, eval = FALSE,  message = FALSE, purl = FALSE}
 install.packages("tidyverse")
 install.packages("tidytext")
 install.packages("tm")
