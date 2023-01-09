@@ -69,6 +69,12 @@ Now you can quickly load it in next time by using `read_delim`. Use `filter` to 
 You can also use `read_csv` to read .csv files in the same manner that you read .txt files
 
 ## Recommended materials
-I highly recommend the book Text Mining with R: A Tidy Approach, which is openly available at https://www.tidytextmining.com/
+I highly recommend the book Text Mining with R: A Tidy Approach, which is openly available at [https://www.tidytextmining.com/](https://www.tidytextmining.com/)
 There you can learn more advanced analyses as well as see the application of this course's methods to a different dataset
+
+## References
+Hvitfeldt, E., & Silge, J. (2021). Supervised Machine Learning for Text Analysis in R (1st ed.). Chapman and Hall/CRC. https://doi.org/10.1201/9781003093459
+
+David Robinson, & Julia Silge. (2017). Text Mining with R. O’Reilly Media, Inc.
+
 
