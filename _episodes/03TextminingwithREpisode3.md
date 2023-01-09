@@ -213,7 +213,7 @@ Selecting by n
 
 <img src="../fig/rmd-03-unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
 
-##tf_idf
+## tf_idf
 We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
 We can use the tf_idf calculation. Briefly, tf_idf in this case looks at the words that occur among each party, and gives a high value to those that frequently occur in one party but rarely occur among the other parties. This will give us a sense of what each party emphasizes in their speeches about China
 
