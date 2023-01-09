@@ -90,8 +90,8 @@ AFINN_dansk <- AFINN %>%
 We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together based on columns and rows that they have in common
 
 There are fundamentally 2 types of joins:
-Mutating joins (which add columns)
-Filtering joins (which filter away rows)
+* Mutating joins (which add columns)
+* Filtering joins (which filter away rows)
 
 Mutating joins work by adding new columns to the tibble. We will use left_join, which is the most common of the mutating joins
 [insert Venn-diagram of left_join]
