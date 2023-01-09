@@ -92,7 +92,7 @@ We need to download the AFINN Index from GitHub
 
 
 ~~~
-download.file("https://raw.githubusercontent.com/swillerhansen/R-textmining/main/data/AFINN%20dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/AFINN_dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
 ~~~
 {: .language-r}
 

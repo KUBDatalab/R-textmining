@@ -26,6 +26,15 @@ We need to install some libraries that can perform the various steps in text ana
 
 
 ~~~
+library(tidyverse)
+library(tidytext)
+library(tm)
+~~~
+{: .language-r}
+
+
+
+~~~
 install.packages("tidyverse")
 install.packages("tidytext")
 install.packages("tm")
@@ -35,17 +44,19 @@ library(tm)
 ~~~
 {: .language-r}
 
-Documentation for each package: <br>
-*https://www.tidyverse.org/packages/ <br>
-*https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html <br>
-*https://cran.r-project.org/web/packages/tm/tm.pdf <br>
+Documentation for each package:
+
+* [tidyverse](https://www.tidyverse.org/packages/)
+* [tidytext](https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html)
+* [tm](https://cran.r-project.org/web/packages/tm/tm.pdf)
 
 ## Delimiting and loading dataset
-The dataset that we will load is a collection of all debates in the Danish Parliament (Folketinget) from fall 2009 to spring 2017. In the Danish Parliament, every word from every speech in the debates is written in down in the summary. Furthermore, all speeches are described by useful and thorough metadata that allow for insightful analyses. The dataset was originally retrieved at
-https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44, and has been prepared for today's course. We are going to work with a filtered dataset that contains all parliament speeches on the topic of China. Similarly, debates about any other country could have been filtered for analysis.
+The dataset that we will load is a collection of all debates in the Danish Parliament (Folketinget) from fall 2009 to spring 2017. In the Danish Parliament, every word from every speech in the debates is written in down in the summary. Furthermore, all speeches are described by useful and thorough metadata that allow for insightful analyses. 
+The dataset was originally retrieved at https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44, and has been prepared for today's course. We are going to work with a filtered dataset that contains all parliament speeches on the topic of China. Similarly, debates about any other country could have been filtered for analysis.
 
 **The steps for delimiting the dataset were the following:
 We read the dataset into RStudio and saved it as a tibble
+
 data <- read_delim("C:/Users/swha/Desktop/Mappe/R/Tekstanalyse/Folketinget/1 fil 2009-2017/Folketingsreferater_2009_2017_samlet.txt")
 
 We wanted to convert the text in two of the columns to lowercase and save them in the tibble. Converting to lowercase makes filtering better, because we can find instances where the country name, which is normally in uppercase in Danish, appears as part of a compound noun or compound name, which is a common way that nouns and names are joined together to form new words and names in the Danish language
@@ -53,19 +64,38 @@ data$\`Agenda title\` <- tolower(data$\`Agenda title\`)
 data$Text <- tolower(data$Text)
 
 Now we needed to filter the data to speeches about China and save it as a tibble. We chose to filter on \`Agenda title\`, because it gives the a complete list of speeches about China. If we were to use the speech text itself, we would have missed speeches about China that did not use the the name China or its derivative adjectives, compound nouns and compound names. str_detect allows us to find instances of speeches about China where the name or the adjective appears either on its own  or as part of other words
+
+
+~~~
 data_kina <- data %>% 
   filter(
     str_detect(\`Agenda title\`, "kina") | str_detect(\`Agenda title\`, "kines")
   )
+~~~
+{: .language-r}
+
+
 
 To check that all the speeches relate to China, we wanted to have a list of all the different \`Agenda title\`s in the filtered data
+
+~~~
 unique(data_kina$\`Agenda title\`)
+~~~
+{: .language-r}
+
+
 
 We saw that one of the \`Agenda title\`s had the work "maskinarbejder" in it. The speeches on this \`Agenda title\` obviously don't relate to China, so we filter the speeches on this \`Agenda title\` away
+
+
+~~~
 data_kina <- data_kina %>% 
   filter(
     !str_detect(\`Agenda title\`, "maskinarbejder")
   ) 
+~~~
+{: .language-r}
+
 
 Now that the dataset was properly filtered to parliament speeches about China, we wrote it as a txt.-file, so that it can easily be loaded into RStudio by you
 
