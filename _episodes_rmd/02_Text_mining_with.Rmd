@@ -46,9 +46,10 @@ head(kina)
 We see that we have a lot of metadata, including the date of the speech, the start and end time of the speech, the discussed resolutions/law proposals and their classifications into subjects, as well as various personal information about the speaker. The last column is called `Text` and this contains the speech itself
 
 ## Introduction to tidytext and tokenization
-To analyze the speeches we need to make the text tidy. Tidy text refers to a dataset where each text has been split up into the individual words that make up the speech, and in format where each row contains one word. ![”Tidy text example](../fig/Tidy_text.png)
 
-Splitting texts, in our case speeches, into individual words is called tokenization ![”Tokenization of example sentence](../fig/Tokenization.png)
+To analyze the speeches we need to make the text tidy. Tidy text refers to a dataset where each text has been split up into the individual words that make up the speech, and in format where each row contains one word. ![Tidy text example](../fig/Tidy_text.png)
+
+Splitting texts, in our case speeches, into individual words is called tokenization ![Tokenization of example sentence](../fig/Tokenization.png)
 Hvitfeldt & Silge, 2021
 
 Tokenization of text into individual words is necessary for text mining because it allows us to analyze the text closely and in detail, analyses which can later be visualized to understand the patterns of the text. Tokenization is language independent, as long as the language is written in an alphabet or syllabary that uses spaces between words. When tokenizing our text to make it tidy, the metadata that describe the whole speech are carried over to also describe the individual word. Thus we can split the text into individual words but still keep track of who said that word and when they did.
@@ -91,8 +92,8 @@ AFINN_dansk <- AFINN %>%
 We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together based on columns and rows that they have in common
 
 There are fundamentally 2 types of joins:
-Mutating joins (which add columns)
-Filtering joins (which filter away rows)
+* Mutating joins (which add columns)
+* Filtering joins (which filter away rows)
 
 Mutating joins work by adding new columns to the tibble. We will use left_join, which is the most common of the mutating joins
 ![”left_join AFINN Index with tidy text](../fig/Venn_left_join.jpg)
