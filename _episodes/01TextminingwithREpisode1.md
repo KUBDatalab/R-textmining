@@ -69,7 +69,7 @@ Now we needed to filter the data to speeches about China and save it as a tibble
 ~~~
 data_kina <- data %>% 
   filter(
-    str_detect(\`Agenda title\`, "kina") | str_detect(\`Agenda title\`, "kines")
+    str_detect(`Agenda title`, "kina") | str_detect(`Agenda title`, "kines")
   )
 ~~~
 {: .language-r}
@@ -79,7 +79,7 @@ data_kina <- data %>%
 To check that all the speeches relate to China, we wanted to have a list of all the different \`Agenda title\`s in the filtered data
 
 ~~~
-unique(data_kina$\`Agenda title\`)
+unique(data_kina$`Agenda title`)
 ~~~
 {: .language-r}
 
@@ -91,7 +91,7 @@ We saw that one of the \`Agenda title\`s had the work "maskinarbejder" in it. Th
 ~~~
 data_kina <- data_kina %>% 
   filter(
-    !str_detect(\`Agenda title\`, "maskinarbejder")
+    !str_detect(`Agenda title`, "maskinarbejder")
   ) 
 ~~~
 {: .language-r}
