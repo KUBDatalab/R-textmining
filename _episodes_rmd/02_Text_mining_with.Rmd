@@ -46,10 +46,10 @@ head(kina)
 We see that we have a lot of metadata, including the date of the speech, the start and end time of the speech, the discussed resolutions/law proposals and their classifications into subjects, as well as various personal information about the speaker. The last column is called `Text` and this contains the speech itself
 
 ## Introduction to tidytext and tokenization
-To analyze the speeches we need to make the text tidy. Tidy text refers to a dataset where each text has been split up into the individual words that make up the speech, and in format where each row contains one word. ![alt text](../fig/Tidy_text.png ”Tidy text example")
 
-Splitting texts, in our case speeches, into individual words is called tokenization 
-![alt text](../fig/Tokenization.png ”Tokenization of example sentence")
+To analyze the speeches we need to make the text tidy. Tidy text refers to a dataset where each text has been split up into the individual words that make up the speech, and in format where each row contains one word. ![Tidy text example](../fig/Tidy_text.png)
+
+Splitting texts, in our case speeches, into individual words is called tokenization ![Tokenization of example sentence](../fig/Tokenization.png)
 Hvitfeldt & Silge, 2021
 
 Tokenization of text into individual words is necessary for text mining because it allows us to analyze the text closely and in detail, analyses which can later be visualized to understand the patterns of the text. Tokenization is language independent, as long as the language is written in an alphabet or syllabary that uses spaces between words. When tokenizing our text to make it tidy, the metadata that describe the whole speech are carried over to also describe the individual word. Thus we can split the text into individual words but still keep track of who said that word and when they did.
@@ -57,7 +57,7 @@ Tokenization of text into individual words is necessary for text mining because 
 We use the tidytext library for tokenization
 
 ## Stopwords
-In all natural language texts, frequent words that carry little meaning by themselves are distributed all across the text ![alt text](../fig/Stopwords.png ”Stopwords examples)
+In all natural language texts, frequent words that carry little meaning by themselves are distributed all across the text ![”Stopwords examples](../fig/Stopwords.png)
 
 The frequent low-meaning words need to be removed because they do not add anything to our understanding of the texts and are just noise
 
@@ -96,11 +96,11 @@ There are fundamentally 2 types of joins:
 * Filtering joins (which filter away rows)
 
 Mutating joins work by adding new columns to the tibble. We will use left_join, which is the most common of the mutating joins
-![alt text](../fig/Venn_left_join.jpg ”left_join AFINN Index with tidy text)
+![”left_join AFINN Index with tidy text](../fig/Venn_left_join.jpg)
 The left_join joins all AFINN sentiment values to those rows that contain a word that is in the AFINN Index and adds it as a new column to the tibble. In the new column, the rows that contain words that don't appear in the AFINN Index have NA in their cell
 
 Filtering joins work by filtering away some rows in the tibble. We will use the anti_join, which removes those rows that contain a word that is also in the stopword list
-![alt text](../fig/Venn_anti_join.jpg ”anti_join stopwords with tidy text)
+![”anti_join stopwords with tidy text](../fig/Venn_anti_join.jpg)
 
 For more info on joins see [R for Data Science section section 13: Relational data](https://r4ds.had.co.nz/relational-data.html)
 

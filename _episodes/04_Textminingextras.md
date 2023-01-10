@@ -16,7 +16,7 @@ keypoints:
 
 
 ## Stopwords for other languages
-Stopword lists are available for a range of European languages via the tm library (see documentation on https://cran.r-project.org/web/packages/tm/tm.pdf p. 38)
+Stopword lists are available for a range of European languages via the tm library (see documentation on [https://cran.r-project.org/web/packages/tm/tm.pdf p. 38](https://cran.r-project.org/web/packages/tm/tm.pdf p. 38)
 
 To call the stopword list for a certain language and make it a tibble to easily `anti_join` with your tidy text run the following code and insert the name of the language if a stopword list exists for it
 
@@ -47,7 +47,7 @@ tibble$stemmed_text <- wordStem(tibble$column_with_text, language = "name of the
 
 
 ## How to download the full dataset
-Go to https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44 and click the blue button that says: Download all files in item. This will download all approximately 860 files in Zip folder. 
+Go to [https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44](https://repository.clarin.dk/repository/xmlui/handle/20.500.12115/44) and click the blue button that says: Download all files in item. This will download all approximately 860 files in Zip folder. 
 The Zip folder contains zip folders for each year in the dataset, and these zip folders contain the parliament speeches including the metadata that describe them as .txt files.
 You need to create a new folder somewhere outside the zip folder environment.
 Now you must copy-paste all .txt files to that new folder. You can go into each zip-folder, press Ctrl+a to mark all files, and then press Ctrl+c to copy them
@@ -71,7 +71,7 @@ write_delim(data, "C:/Users/yourusername/Desktop/Folder/Folketinget/filename.txt
 ~~~
 {: .language-r}
 
-Now you can quickly load it in next time by using `read_delim`. Use `filter` to filter your dataset however you like it. For more info on the `filter` function, see https://r4ds.had.co.nz/transform.html section 2
+Now you can quickly load it in next time by using `read_delim`. Use `filter` to filter your dataset however you like it. For more info on the `filter` function, see [https://r4ds.had.co.nz/transform.html](https://r4ds.had.co.nz/transform.html) section 2
 
 ## Reading other types of files
 You can also use `read_csv` to read .csv files in the same manner that you read .txt files
