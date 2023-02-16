@@ -41,8 +41,7 @@ kina_top_10_ord <- kina_tidy_blokke %>%
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
-  ungroup() %>% 
-  mutate(word = reorder_within(word, n, Party))
+  ungroup()
 ~~~
 {: .language-r}
 
@@ -112,20 +111,20 @@ Selecting by n
 
 
 ~~~
-# A tibble: 111 × 2
-   word                     n
-   <fct>                <int>
- 1 anbefaler___ALT          1
- 2 antal___ALT              1
- 3 danskere___ALT           1
- 4 diplomatiske___ALT       1
- 5 dokumentation___ALT      1
- 6 donorer___ALT            1
- 7 efterforskning___ALT     1
- 8 eu___ALT                 1
- 9 europa___ALT             1
-10 foretaget___ALT          1
-# … with 101 more rows
+# A tibble: 12 × 2
+   word         n
+   <chr>    <int>
+ 1 kina         9
+ 2 dansk        7
+ 3 synes        6
+ 4 hr           5
+ 5 danmark      4
+ 6 søren        3
+ 7 altså        2
+ 8 derfor       2
+ 9 dialog       2
+10 espersen     2
+# … with 2 more rows
 ~~~
 {: .output}
 
