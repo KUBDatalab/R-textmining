@@ -95,7 +95,6 @@ First we look at the top words to find the stopwords for our custom stopword lis
 
 ~~~
 kina_top_10_ord_2 %>% 
-  filter(Role != "formand") %>% 
   count(word, sort = TRUE) %>% 
   top_n(10) %>% 
   tbl_df %>% 
@@ -106,12 +105,29 @@ kina_top_10_ord_2 %>%
 
 
 ~~~
-Error in `filter()`:
-ℹ In argument: `Role != "formand"`.
-Caused by error:
-! object 'Role' not found
+Selecting by n
 ~~~
-{: .error}
+{: .output}
+
+
+
+~~~
+# A tibble: 111 × 2
+   word                     n
+   <fct>                <int>
+ 1 anbefaler___ALT          1
+ 2 antal___ALT              1
+ 3 danskere___ALT           1
+ 4 diplomatiske___ALT       1
+ 5 dokumentation___ALT      1
+ 6 donorer___ALT            1
+ 7 efterforskning___ALT     1
+ 8 eu___ALT                 1
+ 9 europa___ALT             1
+10 foretaget___ALT          1
+# … with 101 more rows
+~~~
+{: .output}
 
 
 Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Let's also remove the words about Folketingets Præsidium, which do not pertain to the content of the debate. Upon later examinations some more names have also been added to the custom stopword list
@@ -150,7 +166,6 @@ Let's now calculate the top 10 words from each party and save it as an object
 
 ~~~
 kina_top_10_ord_4 <- kina_top_10_ord_3 %>% 
-  filter(Role != "formand") %>% 
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
@@ -162,12 +177,9 @@ kina_top_10_ord_4 <- kina_top_10_ord_3 %>%
 
 
 ~~~
-Error in `filter()`:
-ℹ In argument: `Role != "formand"`.
-Caused by error:
-! object 'Role' not found
+Selecting by n
 ~~~
-{: .error}
+{: .output}
 
 Let us now plot the result
 
@@ -182,12 +194,7 @@ kina_top_10_ord_4 %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in ggplot(., aes(n, word, fill = Party)): object 'kina_top_10_ord_4' not found
-~~~
-{: .error}
+<img src="../fig/rmd-03-unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 ## tf_idf
 We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
@@ -197,19 +204,11 @@ First we need to calculate the tf_idf of each word in our tidy text
 
 ~~~
 kina_tidy_tf_idf <- kina_top_10_ord_4 %>% 
-  filter(Role != "formand") %>% 
   count(Party, word, sort = TRUE) %>% 
   bind_tf_idf(word, Party, n) %>% 
   arrange(desc(tf_idf))
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in filter(., Role != "formand"): object 'kina_top_10_ord_4' not found
-~~~
-{: .error}
 
 Now we want to select each party's 10 words that have the highest tf_idf
 
@@ -226,9 +225,9 @@ kina_tidy_tf_idf_top_10 <- kina_tidy_tf_idf %>%
 
 
 ~~~
-Error in group_by(., Party): object 'kina_tidy_tf_idf' not found
+Selecting by tf_idf
 ~~~
-{: .error}
+{: .output}
 
 
 Now let's make our plot.
@@ -244,10 +243,5 @@ kina_tidy_tf_idf_top_10 %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in ggplot(., aes(tf_idf, word, fill = Party)): object 'kina_tidy_tf_idf_top_10' not found
-~~~
-{: .error}
+<img src="../fig/rmd-03-unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" width="612" style="display: block; margin: auto;" />
 
