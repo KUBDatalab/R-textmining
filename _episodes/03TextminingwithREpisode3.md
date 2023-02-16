@@ -165,6 +165,7 @@ Let's now calculate the top 10 words from each party and save it as an object
 
 ~~~
 kina_top_10_ord_4 <- kina_top_10_ord_3 %>% 
+  filter(Role != "formand")
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
@@ -176,9 +177,9 @@ kina_top_10_ord_4 <- kina_top_10_ord_3 %>%
 
 
 ~~~
-Selecting by n
+Error in group_by(Party): object 'Party' not found
 ~~~
-{: .output}
+{: .error}
 
 Let us now plot the result
 
@@ -193,7 +194,27 @@ kina_top_10_ord_4 %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-03-unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Don't know how to automatically pick scale for object of type <function>.
+Defaulting to continuous.
+~~~
+{: .output}
+
+
+
+~~~
+Error in `geom_col()`:
+! Problem while computing aesthetics.
+ℹ Error occurred in the 1st layer.
+Caused by error in `compute_aesthetics()`:
+! Aesthetics are not valid data columns.
+✖ The following aesthetics are invalid:
+✖ `x = n`
+ℹ Did you mistype the name of a data column or forget to add `after_stat()`?
+~~~
+{: .error}
 
 ## tf_idf
 We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
@@ -203,11 +224,19 @@ First we need to calculate the tf_idf of each word in our tidy text
 
 ~~~
 kina_tidy_tf_idf <- kina_top_10_ord_3 %>% 
+  filter(Role != "formand")
   count(Party, word, sort = TRUE) %>% 
   bind_tf_idf(word, Party, n) %>% 
   arrange(desc(tf_idf))
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in count(Party, word, sort = TRUE): object 'Party' not found
+~~~
+{: .error}
 
 Now we want to select each party's 10 words that have the highest tf_idf
 
@@ -224,9 +253,19 @@ kina_tidy_tf_idf_top_10 <- kina_tidy_tf_idf %>%
 
 
 ~~~
-Selecting by tf_idf
+Selecting by Blok
 ~~~
 {: .output}
+
+
+
+~~~
+Error in `mutate()`:
+ℹ In argument: `word = reorder_within(word, tf_idf, Party)`.
+Caused by error in `tapply()`:
+! object 'tf_idf' not found
+~~~
+{: .error}
 
 
 Now let's make our plot.
@@ -242,5 +281,10 @@ kina_tidy_tf_idf_top_10 %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-03-unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Error in ggplot(., aes(tf_idf, word, fill = Party)): object 'kina_tidy_tf_idf_top_10' not found
+~~~
+{: .error}
 
