@@ -142,8 +142,8 @@ Selecting by n
 53 regering                 77
 54 andet                    76
 55 sagt                     76
-56 år                       75
-57 udenrigsministeren       75
+56 udenrigsministeren       75
+57 år                       75
 58 lige                     73
 59 står                     73
 60 tage                     73
