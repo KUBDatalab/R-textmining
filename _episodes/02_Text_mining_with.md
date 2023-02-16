@@ -138,22 +138,32 @@ kina_tidy <- kina %>%
 ## Analyzing the sentiment of parties
 We would like to measure the sentiment of each party when giving speeches on the topic of China
 
+First we need to calculate the mean sentiment value for each party. We save it as an object so that we can easily recall it for visualization
+
 
 ~~~
-kina_tidy %>% 
+kina_sentiment_value <- kina_tidy %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
   ) %>% 
-  arrange(desc(mean_sentiment_value)) %>% 
+  arrange(desc(mean_sentiment_value))
+~~~
+{: .language-r}
+
+Now we want to visualize each party's mean sentiment value according to the AFINN-Index
+
+
+~~~
+kina_sentiment_value %>% 
   ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
   geom_col() +
   labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-02-unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-02-unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
 
 ## Analyzing the sentiment of rød and blå blok
 We would also like to analyze the sentiment of rød and blå blok as a whole respectively. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok and put that in a tibble, then bind the two tibbles into one tibble, and then make a left_join to the rows in our tidy text
@@ -163,7 +173,7 @@ We would also like to analyze the sentiment of rød and blå blok as a whole res
 roed_blok = tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
 blaa_blok = tibble(Party= c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
 blok = bind_rows(roed_blok, blaa_blok)
-kina_tidy_blokke <- kina_tidy %>% 
+kina_tidy_blokke <- kina_sentiment_value %>% 
   left_join(blok, by = "Party")
 ~~~
 {: .language-r}
@@ -172,13 +182,30 @@ Now we would like to do the same analysis of mean sentiment value, this time for
 
 
 ~~~
-kina_tidy_blokke %>% 
+kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
   filter(Role != "formand") %>% 
   group_by(Blok) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
   ) %>% 
-  arrange(desc(mean_sentiment_value)) %>% 
+  arrange(desc(mean_sentiment_value))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `filter()`:
+ℹ In argument: `Role != "formand"`.
+Caused by error:
+! object 'Role' not found
+~~~
+{: .error}
+
+
+
+~~~
+kina_blokke_sentiment_value %>% 
   ggplot(aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
   scale_fill_manual(values = c("blue", "red")) +
@@ -186,5 +213,10 @@ kina_tidy_blokke %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-02-unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Error in ggplot(., aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), : object 'kina_blokke_sentiment_value' not found
+~~~
+{: .error}
 

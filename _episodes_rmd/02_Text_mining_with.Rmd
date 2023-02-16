@@ -114,14 +114,22 @@ kina_tidy <- kina %>%
 ## Analyzing the sentiment of parties
 We would like to measure the sentiment of each party when giving speeches on the topic of China
 
+First we need to calculate the mean sentiment value for each party. We save it as an object so that we can easily recall it for visualization
+
 ```{r}
-kina_tidy %>% 
+kina_sentiment_value <- kina_tidy %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
   ) %>% 
-  arrange(desc(mean_sentiment_value)) %>% 
+  arrange(desc(mean_sentiment_value))
+```
+
+Now we want to visualize each party's mean sentiment value according to the AFINN-Index
+
+```{r}
+kina_sentiment_value %>% 
   ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
   geom_col() +
   labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value
@@ -134,20 +142,25 @@ We would also like to analyze the sentiment of rød and blå blok as a whole res
 roed_blok = tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
 blaa_blok = tibble(Party= c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
 blok = bind_rows(roed_blok, blaa_blok)
-kina_tidy_blokke <- kina_tidy %>% 
+kina_tidy_blokke <- kina_sentiment_value %>% 
   left_join(blok, by = "Party")
 ```
 
 Now we would like to do the same analysis of mean sentiment value, this time for each blok. We also want to specify that the column for roed_bloek should be red and the column for blaa_blok should be blue
 
 ```{r}
-kina_tidy_blokke %>% 
+kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
   filter(Role != "formand") %>% 
   group_by(Blok) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
   ) %>% 
-  arrange(desc(mean_sentiment_value)) %>% 
+  arrange(desc(mean_sentiment_value))
+```
+
+
+```{r}
+kina_blokke_sentiment_value %>% 
   ggplot(aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
   scale_fill_manual(values = c("blue", "red")) +
