@@ -139,7 +139,7 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
                                     "selvfølgelig", "gange", "præcis", "sagde", "hele", "fald", "enhedslisten", "sidste", 
                                     "forstå", "betyder", "alliances", "fortsat", "venstre", "holde", "præsidium", "baseret",
                                     "lande", "land", "gjorde", "pind", "simpelt", "frem", "præsidiet", "præsidium", 
-                                    "dokument"))
+                                    "dokument", "tale", "hen"))
 ~~~
 {: .language-r}
 
