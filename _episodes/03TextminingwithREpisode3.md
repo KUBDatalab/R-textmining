@@ -41,7 +41,8 @@ kina_top_10_ord <- kina_tidy_blokke %>%
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
-  ungroup()
+  ungroup() %>% 
+  mutate(word = reorder_within(word, n, Party))
 ~~~
 {: .language-r}
 
@@ -81,7 +82,7 @@ Let us now apply it to the dataset by `anti_join`
 
 
 ~~~
-kina_top_10_ord_2 <- kina_top_10_ord %>% 
+kina_top_10_ord_2 <- kina_tidy_blokke %>% 
   anti_join(iso_stopwords, by = "word")
 ~~~
 {: .language-r}
@@ -111,20 +112,19 @@ Selecting by n
 
 
 ~~~
-# A tibble: 12 × 2
-   word         n
-   <chr>    <int>
- 1 kina         9
- 2 dansk        7
- 3 synes        6
- 4 hr           5
- 5 danmark      4
- 6 søren        3
- 7 altså        2
- 8 derfor       2
- 9 dialog       2
-10 espersen     2
-# … with 2 more rows
+# A tibble: 10 × 2
+   word           n
+   <chr>      <int>
+ 1 kina         495
+ 2 hr           476
+ 3 dansk        278
+ 4 synes        236
+ 5 søren        217
+ 6 ordføreren   197
+ 7 danmark      193
+ 8 tak          189
+ 9 espersen     175
+10 altså        160
 ~~~
 {: .output}
 
