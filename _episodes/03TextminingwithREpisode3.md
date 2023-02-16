@@ -77,20 +77,6 @@ Use `vroom(delim =)` to specify one explicitly.
 ~~~
 {: .error}
 
-
-
-~~~
-iso_stopwords <- as_tibble(iso_stopwords)
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in as_tibble(iso_stopwords): object 'iso_stopwords' not found
-~~~
-{: .error}
-
 Let us now apply it to the dataset by `anti_join`
 
 
