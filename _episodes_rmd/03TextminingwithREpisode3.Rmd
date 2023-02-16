@@ -111,6 +111,7 @@ Based on this, we select the words that we consider stopwords and make them into
 
 
 ```{r}
+
 custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", "altså", "søren", "tror", 
                                     "få", "bare", "derfor", "godt", "andre", "må", "espersen", "mener", "gøre", "helt", "dag", 
                                     "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak", "måde", 
@@ -123,7 +124,7 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
                                     "hvert", "bør", "grund", "vigtig", "vigtigt", "vigtige", "ting", "ønsker", "fru", "hr", 
                                     "selvfølgelig", "gange", "præcis", "sagde", "hele", "fald", "enhedslisten", "sidste", 
                                     "forstå", "betyder", "alliances", "fortsat", "venstre", "holde", "præsidium", "baseret",
-                                    "lande", "land"))
+                                    "lande", "land", "gjorde", "pind", "simpelt", "frem"))
 ```
 
 We then do an `anti_join`of our custom stopword list to our tidy text
