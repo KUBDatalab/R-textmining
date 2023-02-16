@@ -64,37 +64,30 @@ A  more extensive stopword list for Danish is the ISO stopword list. We will use
 
 ~~~
 download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopord.txt", "data/iso_stopord.txt", mode = "wb")
-iso_stopwords <- read_delim("../data.iso_stopord.txt")
+iso_stopwords <- read_delim("data/iso_stopord.txt")
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error: '../data.iso_stopord.txt' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
+Error: Could not guess the delimiter.
+
+Use `vroom(delim =)` to specify one explicitly.
 ~~~
 {: .error}
 
 
 
 ~~~
-iso_stopwords <- as.tibble(iso_stopwords)
+iso_stopwords <- as_tibble(iso_stopwords)
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Warning: `as.tibble()` was deprecated in tibble 2.0.0.
-ℹ Please use `as_tibble()` instead.
-ℹ The signature and semantics have changed, see `?as_tibble`.
-~~~
-{: .warning}
-
-
-
-~~~
-Error in as_tibble(x, ...): object 'iso_stopwords' not found
+Error in as_tibble(iso_stopwords): object 'iso_stopwords' not found
 ~~~
 {: .error}
 
