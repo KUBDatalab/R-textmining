@@ -68,7 +68,8 @@ kina_top_10_ord <- kina_tidy_blokke %>%
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
-  ungroup()
+  ungroup() %>% 
+  mutate(word = reorder_within(word, n, Party))
 
 ```
 
@@ -94,7 +95,7 @@ iso_stopwords <- as_tibble(iso_stopwords)
 Let us now apply it to the dataset by `anti_join`
 
 ```{r}
-kina_top_10_ord_2 <- kina_top_10_ord %>% 
+kina_top_10_ord_2 <- kina_tidy_blokke %>% 
   anti_join(iso_stopwords, by = "word")
 ```
 
