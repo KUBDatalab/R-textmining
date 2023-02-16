@@ -127,7 +127,7 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
                                     "lande", "land", "gjorde", "pind", "simpelt", "frem"))
 ```
 
-We then do an `anti_join`of our custom stopword list to our tidy text
+We then do an `anti_join` of our custom stopword list to our tidy text
 
 ```{r}
 kina_tidy_blokke3 <- kina_tidy_blokke2 %>% 
