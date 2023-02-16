@@ -32,21 +32,17 @@ library(tm)
 ## Word frequency
 Now that we have seen the average sentiment of the parties, we want to get a deeper understanding of what they talk about when discussing China. We can calculate the most frequent words that each party uses, and then visualize that to get an impression of what they talk about when discussing China.
 
+First we calculate the 10 most frequent words that each party says
 
 
 ~~~
-kina_tidy_blokke %>% 
+kina_top_10_ord <- kina_tidy_blokke %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
   ungroup() %>% 
-  mutate(word = reorder_within(word, n, Party)) %>% 
-  ggplot(aes(n, word, fill = Party)) +
-  geom_col() + 
-  facet_wrap(~Party, scales = "free") +
-  scale_y_reordered() +
-  labs(x = "Word occurrences")
+  mutate(word = reorder_within(word, n, Party))
 ~~~
 {: .language-r}
 
@@ -57,7 +53,20 @@ Selecting by n
 ~~~
 {: .output}
 
-<img src="../fig/rmd-03-unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
+Now we want to visualize the result
+
+
+~~~
+kina_top_10_ord %>% 
+  ggplot(aes(n, word, fill = Party)) +
+  geom_col() + 
+  facet_wrap(~Party, scales = "free") +
+  scale_y_reordered() +
+  labs(x = "Word occurrences")
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-03-unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 
 A  more extensive stopword list for Danish is the ISO stopword list. We will use it know, so lets download it from the repository. Then we save it as an object. Then we make it into a tibble to prepare it for `anti_join` with our dataset
 
@@ -73,7 +82,7 @@ Let us now apply it to the dataset by `anti_join`
 
 
 ~~~
-kina_tidy_blokke2 <- kina_tidy_blokke %>% 
+kina_top_10_ord_2 <- kina_top_10_ord %>% 
   anti_join(iso_stopwords, by = "word")
 ~~~
 {: .language-r}
@@ -85,7 +94,7 @@ First we look at the top words to find the stopwords for our custom stopword lis
 
 
 ~~~
-kina_tidy_blokke2 %>% 
+kina_top_10_ord_2 %>% 
   filter(Role != "formand") %>% 
   count(word, sort = TRUE) %>% 
   top_n(10) %>% 
@@ -97,28 +106,12 @@ kina_tidy_blokke2 %>%
 
 
 ~~~
-Selecting by n
+Error in `filter()`:
+ℹ In argument: `Role != "formand"`.
+Caused by error:
+! object 'Role' not found
 ~~~
-{: .output}
-
-
-
-~~~
-# A tibble: 10 × 2
-   word          n
-   <chr>     <int>
- 1 kina        495
- 2 hr          318
- 3 dansk       258
- 4 synes       236
- 5 danmark     193
- 6 altså       160
- 7 kinesiske   155
- 8 eu          154
- 9 søren       153
-10 forhold     140
-~~~
-{: .output}
+{: .error}
 
 
 Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Let's also remove the words about Folketingets Præsidium, which do not pertain to the content of the debate. Upon later examinations some more names have also been added to the custom stopword list
@@ -147,22 +140,40 @@ We then do an `anti_join` of our custom stopword list to our tidy text
 
 
 ~~~
-kina_tidy_blokke3 <- kina_tidy_blokke2 %>% 
+kina_top_10_ord_3 <- kina_top_10_ord_2 %>% 
   anti_join(custom_stopwords, by = "word")
 ~~~
 {: .language-r}
 
-Let's now make our plot again
+Let's now calculate the top 10 words from each party and save it as an object
 
 
 ~~~
-kina_tidy_blokke3 %>% 
+kina_top_10_ord_4 <- kina_top_10_ord_3 %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
   ungroup() %>% 
-  mutate(word = reorder_within(word, n, Party)) %>% 
+  mutate(word = reorder_within(word, n, Party))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `filter()`:
+ℹ In argument: `Role != "formand"`.
+Caused by error:
+! object 'Role' not found
+~~~
+{: .error}
+
+Let us now plot the result
+
+
+~~~
+kina_top_10_ord_4 %>% 
   ggplot(aes(n, word, fill = Party)) +
   geom_col() + 
   facet_wrap(~Party, scales = "free") +
@@ -174,11 +185,9 @@ kina_tidy_blokke3 %>%
 
 
 ~~~
-Selecting by n
+Error in ggplot(., aes(n, word, fill = Party)): object 'kina_top_10_ord_4' not found
 ~~~
-{: .output}
-
-<img src="../fig/rmd-03-unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+{: .error}
 
 ## tf_idf
 We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
@@ -187,7 +196,7 @@ We can use the tf_idf calculation. Briefly, tf_idf in this case looks at the wor
 First we need to calculate the tf_idf of each word in our tidy text
 
 ~~~
-kina_tidy_tf_idf <- kina_tidy_blokke3 %>% 
+kina_tidy_tf_idf <- kina_top_10_ord_4 %>% 
   filter(Role != "formand") %>% 
   count(Party, word, sort = TRUE) %>% 
   bind_tf_idf(word, Party, n) %>% 
@@ -195,15 +204,38 @@ kina_tidy_tf_idf <- kina_tidy_blokke3 %>%
 ~~~
 {: .language-r}
 
-Now let's make our plot. Most commands in our plot here also appeared in our plot of word frequency, but some have already been taken care of by the previous calculation of tf_idf
 
 
 ~~~
-kina_tidy_tf_idf %>% 
+Error in filter(., Role != "formand"): object 'kina_top_10_ord_4' not found
+~~~
+{: .error}
+
+Now we want to select each party's 10 words that have the highest tf_idf
+
+
+~~~
+kina_tidy_tf_idf_top_10 <- kina_tidy_tf_idf %>% 
   group_by(Party) %>% 
   top_n(10) %>% 
   ungroup() %>% 
-  mutate(word = reorder_within(word, tf_idf, Party)) %>% 
+  mutate(word = reorder_within(word, tf_idf, Party))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in group_by(., Party): object 'kina_tidy_tf_idf' not found
+~~~
+{: .error}
+
+
+Now let's make our plot.
+
+
+~~~
+kina_tidy_tf_idf_top_10 %>%  
   ggplot(aes(tf_idf, word, fill = Party)) +
   geom_col() +
   facet_wrap(~Party, scales = "free") +
@@ -215,9 +247,7 @@ kina_tidy_tf_idf %>%
 
 
 ~~~
-Selecting by tf_idf
+Error in ggplot(., aes(tf_idf, word, fill = Party)): object 'kina_tidy_tf_idf_top_10' not found
 ~~~
-{: .output}
-
-<img src="../fig/rmd-03-unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+{: .error}
 

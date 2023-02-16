@@ -48,9 +48,9 @@ kina_tidy <- kina %>%
   anti_join(stopwords_dansk) %>% #stopwords in Danish
   left_join(AFINN_dansk, by = "word") #left join with AFINN Index in Danish
 
-roed_blok = tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
-blaa_blok = tibble(Party= c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
-blok = bind_rows(roed_blok, blaa_blok)
+roed_blok <- tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
+blaa_blok <- tibble(Party= c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
+blok <- bind_rows(roed_blok, blaa_blok)
 kina_tidy_blokke <- kina_tidy %>% 
   left_join(blok, by = "Party")
 
@@ -60,15 +60,23 @@ kina_tidy_blokke <- kina_tidy %>%
 ## Word frequency
 Now that we have seen the average sentiment of the parties, we want to get a deeper understanding of what they talk about when discussing China. We can calculate the most frequent words that each party uses, and then visualize that to get an impression of what they talk about when discussing China.
 
+First we calculate the 10 most frequent words that each party says
 
 ```{r}
-kina_tidy_blokke %>% 
+kina_top_10_ord <- kina_tidy_blokke %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
   ungroup() %>% 
-  mutate(word = reorder_within(word, n, Party)) %>% 
+  mutate(word = reorder_within(word, n, Party))
+
+```
+
+Now we want to visualize the result
+
+```{r}
+kina_top_10_ord %>% 
   ggplot(aes(n, word, fill = Party)) +
   geom_col() + 
   facet_wrap(~Party, scales = "free") +
@@ -87,7 +95,7 @@ iso_stopwords <- as_tibble(iso_stopwords)
 Let us now apply it to the dataset by `anti_join`
 
 ```{r}
-kina_tidy_blokke2 <- kina_tidy_blokke %>% 
+kina_top_10_ord_2 <- kina_top_10_ord %>% 
   anti_join(iso_stopwords, by = "word")
 ```
 
@@ -98,7 +106,7 @@ First we look at the top words to find the stopwords for our custom stopword lis
 
 ```{r, warning = FALSE}
 
-kina_tidy_blokke2 %>% 
+kina_top_10_ord_2 %>% 
   filter(Role != "formand") %>% 
   count(word, sort = TRUE) %>% 
   top_n(10) %>% 
@@ -130,20 +138,26 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
 We then do an `anti_join` of our custom stopword list to our tidy text
 
 ```{r}
-kina_tidy_blokke3 <- kina_tidy_blokke2 %>% 
+kina_top_10_ord_3 <- kina_top_10_ord_2 %>% 
   anti_join(custom_stopwords, by = "word")
 ```
 
-Let's now make our plot again
+Let's now calculate the top 10 words from each party and save it as an object
 
 ```{r}
-kina_tidy_blokke3 %>% 
+kina_top_10_ord_4 <- kina_top_10_ord_3 %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
   ungroup() %>% 
-  mutate(word = reorder_within(word, n, Party)) %>% 
+  mutate(word = reorder_within(word, n, Party))
+```
+
+Let us now plot the result
+
+```{r}
+kina_top_10_ord_4 %>% 
   ggplot(aes(n, word, fill = Party)) +
   geom_col() + 
   facet_wrap(~Party, scales = "free") +
@@ -157,21 +171,28 @@ We can use the tf_idf calculation. Briefly, tf_idf in this case looks at the wor
 
 First we need to calculate the tf_idf of each word in our tidy text
 ```{r}
-kina_tidy_tf_idf <- kina_tidy_blokke3 %>% 
+kina_tidy_tf_idf <- kina_top_10_ord_4 %>% 
   filter(Role != "formand") %>% 
   count(Party, word, sort = TRUE) %>% 
   bind_tf_idf(word, Party, n) %>% 
   arrange(desc(tf_idf))
 ```
 
-Now let's make our plot. Most commands in our plot here also appeared in our plot of word frequency, but some have already been taken care of by the previous calculation of tf_idf
+Now we want to select each party's 10 words that have the highest tf_idf
 
 ```{r}
-kina_tidy_tf_idf %>% 
+kina_tidy_tf_idf_top_10 <- kina_tidy_tf_idf %>% 
   group_by(Party) %>% 
   top_n(10) %>% 
   ungroup() %>% 
-  mutate(word = reorder_within(word, tf_idf, Party)) %>% 
+  mutate(word = reorder_within(word, tf_idf, Party))
+```
+
+
+Now let's make our plot.
+
+```{r}
+kina_tidy_tf_idf_top_10 %>%  
   ggplot(aes(tf_idf, word, fill = Party)) +
   geom_col() +
   facet_wrap(~Party, scales = "free") +
