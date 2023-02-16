@@ -68,8 +68,7 @@ kina_top_10_ord <- kina_tidy_blokke %>%
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
   top_n(10) %>% 
-  ungroup() %>% 
-  mutate(word = reorder_within(word, n, Party))
+  ungroup()
 
 ```
 
