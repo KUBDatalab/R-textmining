@@ -76,21 +76,39 @@ kina_tidy_blokke %>%
   labs(x = "Word occurrences")
 ```
 
-Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then `anti_join` it with the dataset, just like we did for the already existing stopword list.
+A  more extensive stopword list for Danish is the ISO stopword list. We will use it know, so lets download it from the repository. Then we save it as an object. Then we make it into a tibble to prepare it for `anti_join` with our dataset
 
-First we look at the top 70 words to find the stopwords for our custom stopword list
+```{r}
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopord.txt", "data/iso_stopord.txt", mode = "wb")
+iso_stopwords <- read_delim("../data.iso_stopord.txt")
+iso_stopwords <- as.tibble(iso_stopwords)
+```
+
+Let us now apply it to the dataset by `anti_join`
+
+```{r}
+kina_tidy_blokke2 <- kina_tidy_blokke %>% 
+  anti_join(iso_stopwords, by = "word")
+```
+
+
+Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then `anti_join` it with the dataset, just like we did for the already existing stopword lists.
+
+First we look at the top words to find the stopwords for our custom stopword list. Here I have printed 10, but I have looked at over 70
 
 ```{r, warning = FALSE}
 
-kina_tidy_blokke %>% 
+kina_tidy_blokke2 %>% 
   filter(Role != "formand") %>% 
   count(word, sort = TRUE) %>% 
-  top_n(70) %>% 
+  top_n(10) %>% 
   tbl_df %>% 
-  print(n=70)
+  print(n=10)
 ```
 
+
 Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Upon later examinations some more names have also been added to the custom stopword list
+
 
 ```{r}
 custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", "altså", "søren", "tror", 
@@ -98,22 +116,26 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
                                     "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak", "måde", 
                                     "set", "siger", "andet", "sagt", "år", "lige", "står", "tage", "nemlig", "lidt",
                                     "sag", "går", "kommer", "nok", "danmark", "danmarks", "dansk", "danske", "danskt", 
-                                    "kina", "kinas", "kinesisk", "kinesiske", "kinesiskt", 
-                                    "ordfører", "ordføreren", "ordførerens", "ordførere", "ordførerne", 
-                                    "spørgsmål", "møder", "holger", "k", "nielsen"))
+                                    "kina", "kinas", "kinesisk", "kinesiske", "kinesiskt", "kineser", "kineseren", 
+                                    "kinesere", "kineserne", "ordfører", "ordføreren", "ordførerens", "ordførere", "ordførerne", 
+                                    "spørgsmål", "møder", "holger", "k", "nielsen", "regering", "regeringen", "regeringens", 
+                                    "folketinget", "folketingets", "måske", "forslag", "egentlig", "rigtig", "rigtigt", "rigtige", 
+                                    "hvert", "bør", "grund", "vigtig", "vigtigt", "vigtige", "ting", "ønsker", "fru", "hr", 
+                                    "selvfølgelig", "gange", "præcis", "sagde", "hele", "fald", "enhedslisten", "sidste", 
+                                    "forstå", "betyder", "alliances", "fortsat", "venstre", "holde", "præsidium", "baseret"))
 ```
 
 We then do an `anti_join`of our custom stopword list to our tidy text
 
 ```{r}
-kina_tidy_blokke2 <- kina_tidy_blokke %>% 
+kina_tidy_blokke3 <- kina_tidy_blokke2 %>% 
   anti_join(custom_stopwords, by = "word")
 ```
 
 Let's now make our plot again
 
 ```{r}
-kina_tidy_blokke2 %>% 
+kina_tidy_blokke3 %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
@@ -133,7 +155,7 @@ We can use the tf_idf calculation. Briefly, tf_idf in this case looks at the wor
 
 First we need to calculate the tf_idf of each word in our tidy text
 ```{r}
-kina_tidy_tf_idf <- kina_tidy_blokke2 %>% 
+kina_tidy_tf_idf <- kina_tidy_blokke3 %>% 
   filter(Role != "formand") %>% 
   count(Party, word, sort = TRUE) %>% 
   bind_tf_idf(word, Party, n) %>% 
