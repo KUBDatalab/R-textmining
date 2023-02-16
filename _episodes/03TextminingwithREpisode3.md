@@ -121,7 +121,7 @@ Selecting by n
 {: .output}
 
 
-Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Upon later examinations some more names have also been added to the custom stopword list
+Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Let's also remove the words about Folketingets Præsidium, which do not pertain to the content of the debate. Upon later examinations some more names have also been added to the custom stopword list
 
 
 
@@ -138,7 +138,7 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
                                     "hvert", "bør", "grund", "vigtig", "vigtigt", "vigtige", "ting", "ønsker", "fru", "hr", 
                                     "selvfølgelig", "gange", "præcis", "sagde", "hele", "fald", "enhedslisten", "sidste", 
                                     "forstå", "betyder", "alliances", "fortsat", "venstre", "holde", "præsidium", "baseret",
-                                    "lande", "land", "gjorde", "pind", "simpelt", "frem"))
+                                    "lande", "land", "gjorde", "pind", "simpelt", "frem", "præsidet", "præsidum"))
 ~~~
 {: .language-r}
 
