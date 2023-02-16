@@ -65,23 +65,6 @@ A  more extensive stopword list for Danish is the ISO stopword list. We will use
 ~~~
 download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopord.txt", "data/iso_stopord.txt", mode = "wb")
 iso_stopwords <- read_table("data/iso_stopord.txt")
-~~~
-{: .language-r}
-
-
-
-~~~
-
-── Column specification ────────────────────────────────────────────────────────
-cols(
-  word = col_character()
-)
-~~~
-{: .output}
-
-
-
-~~~
 iso_stopwords <- as_tibble(iso_stopwords)
 ~~~
 {: .language-r}
@@ -154,7 +137,8 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
                                     "folketinget", "folketingets", "måske", "forslag", "egentlig", "rigtig", "rigtigt", "rigtige", 
                                     "hvert", "bør", "grund", "vigtig", "vigtigt", "vigtige", "ting", "ønsker", "fru", "hr", 
                                     "selvfølgelig", "gange", "præcis", "sagde", "hele", "fald", "enhedslisten", "sidste", 
-                                    "forstå", "betyder", "alliances", "fortsat", "venstre", "holde", "præsidium", "baseret"))
+                                    "forstå", "betyder", "alliances", "fortsat", "venstre", "holde", "præsidium", "baseret",
+                                    "lande", "land"))
 ~~~
 {: .language-r}
 
