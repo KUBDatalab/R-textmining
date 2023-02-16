@@ -150,7 +150,6 @@ Now we would like to do the same analysis of mean sentiment value, this time for
 
 ```{r}
 kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
-  filter(Role != "formand") %>% 
   group_by(Blok) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
