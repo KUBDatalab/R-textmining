@@ -183,7 +183,6 @@ Now we would like to do the same analysis of mean sentiment value, this time for
 
 ~~~
 kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
-  filter(Role != "formand") %>% 
   group_by(Blok) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
@@ -195,10 +194,12 @@ kina_blokke_sentiment_value <- kina_tidy_blokke %>%
 
 
 ~~~
-Error in `filter()`:
-ℹ In argument: `Role != "formand"`.
-Caused by error:
-! object 'Role' not found
+Error in `summarize()`:
+ℹ In argument: `mean_sentiment_value = mean(sentiment_value, na.rm =
+  T)`.
+ℹ In group 1: `Blok = "blaa_blok"`.
+Caused by error in `mean()`:
+! object 'sentiment_value' not found
 ~~~
 {: .error}
 
