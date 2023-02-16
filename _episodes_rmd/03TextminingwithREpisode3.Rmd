@@ -80,7 +80,8 @@ A  more extensive stopword list for Danish is the ISO stopword list. We will use
 
 ```{r}
 download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopord.txt", "data/iso_stopord.txt", mode = "wb")
-iso_stopwords <- read_delim("data/iso_stopord.txt")
+iso_stopwords <- read_table("data/iso_stopord.txt")
+iso_stopwords <- as_tibble(iso_stopwords)
 ```
 
 Let us now apply it to the dataset by `anti_join`
