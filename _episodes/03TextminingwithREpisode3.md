@@ -202,7 +202,7 @@ We can use the tf_idf calculation. Briefly, tf_idf in this case looks at the wor
 First we need to calculate the tf_idf of each word in our tidy text
 
 ~~~
-kina_tidy_tf_idf <- kina_top_10_ord_4 %>% 
+kina_tidy_tf_idf <- kina_top_10_ord_3 %>% 
   count(Party, word, sort = TRUE) %>% 
   bind_tf_idf(word, Party, n) %>% 
   arrange(desc(tf_idf))
