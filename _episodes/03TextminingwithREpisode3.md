@@ -59,109 +59,87 @@ Selecting by n
 
 <img src="../fig/rmd-03-unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
 
-Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then `anti_join` it with the dataset, just like we did for the already existing stopword list.
-
-First we look at the top 70 words to find the stopwords for our custom stopword list
+A  more extensive stopword list for Danish is the ISO stopword list. We will use it know, so lets download it from the repository. Then we save it as an object. Then we make it into a tibble to prepare it for `anti_join` with our dataset
 
 
 ~~~
-kina_tidy_blokke %>% 
-  filter(Role != "formand") %>% 
-  count(word, sort = TRUE) %>% 
-  top_n(70) %>% 
-  tbl_df %>% 
-  print(n=70)
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopord.txt", "data/iso_stopord.txt", mode = "wb")
+iso_stopwords <- read_delim("../data.iso_stopord.txt")
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Selecting by n
+Error: '../data.iso_stopord.txt' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
 ~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
-# A tibble: 72 × 2
-   word                      n
-   <chr>                 <int>
- 1 så                      584
- 2 kina                    495
- 3 kan                     486
- 4 hr                      318
- 5 dansk                   258
- 6 sige                    246
- 7 synes                   236
- 8 ved                     197
- 9 danmark                 193
-10 altså                   160
-11 kinesiske               155
-12 eu                      154
-13 søren                   153
-14 forhold                 140
-15 tror                    134
-16 få                      133
-17 bare                    131
-18 derfor                  131
-19 godt                    131
-20 andre                   130
-21 må                      126
-22 espersen                125
-23 mener                   118
-24 gøre                    115
-25 helt                    114
-26 dag                     108
-27 spørgsmål               101
-28 vores                   100
-29 regeringen               97
-30 dialog                   96
-31 faktisk                  96
-32 danske                   93
-33 folkeparti               93
-34 tibet                    92
-35 gerne                    91
-36 side                     89
-37 lande                    87
-38 selvfølgelig             87
-39 gør                      86
-40 nogen                    86
-41 fordi                    85
-42 hvordan                  85
-43 menneskerettighederne    85
-44 ret                      85
-45 tak                      85
-46 folketinget              83
-47 måde                     83
-48 set                      81
-49 siger                    81
-50 menneskerettigheder      78
-51 verbalnoten              78
-52 dalai                    77
-53 regering                 77
-54 andet                    76
-55 sagt                     76
-56 udenrigsministeren       75
-57 år                       75
-58 lige                     73
-59 står                     73
-60 tage                     73
-61 debat                    70
-62 ønsker                   69
-63 fjer                     68
-64 nemlig                   68
-65 lidt                     67
-66 sag                      66
-67 går                      65
-68 kommer                   65
-69 forslag                  64
-70 nok                      64
-# … with 2 more rows
+iso_stopwords <- as.tibble(iso_stopwords)
 ~~~
-{: .output}
+{: .language-r}
+
+
+
+~~~
+Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+ℹ Please use `as_tibble()` instead.
+ℹ The signature and semantics have changed, see `?as_tibble`.
+~~~
+{: .warning}
+
+
+
+~~~
+Error in as_tibble(x, ...): object 'iso_stopwords' not found
+~~~
+{: .error}
+
+Let us now apply it to the dataset by `anti_join`
+
+
+~~~
+kina_tidy_blokke2 <- kina_tidy_blokke %>% 
+  anti_join(iso_stopwords, by = "word")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(y): object 'iso_stopwords' not found
+~~~
+{: .error}
+
+
+Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then `anti_join` it with the dataset, just like we did for the already existing stopword lists.
+
+First we look at the top words to find the stopwords for our custom stopword list. Here I have printed 10, but I have looked at over 70
+
+
+~~~
+kina_tidy_blokke2 %>% 
+  filter(Role != "formand") %>% 
+  count(word, sort = TRUE) %>% 
+  top_n(10) %>% 
+  tbl_df %>% 
+  print(n=10)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke2' not found
+~~~
+{: .error}
+
 
 Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Upon later examinations some more names have also been added to the custom stopword list
+
 
 
 ~~~
@@ -170,9 +148,13 @@ custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", 
                                     "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak", "måde", 
                                     "set", "siger", "andet", "sagt", "år", "lige", "står", "tage", "nemlig", "lidt",
                                     "sag", "går", "kommer", "nok", "danmark", "danmarks", "dansk", "danske", "danskt", 
-                                    "kina", "kinas", "kinesisk", "kinesiske", "kinesiskt", 
-                                    "ordfører", "ordføreren", "ordførerens", "ordførere", "ordførerne", 
-                                    "spørgsmål", "møder", "holger", "k", "nielsen"))
+                                    "kina", "kinas", "kinesisk", "kinesiske", "kinesiskt", "kineser", "kineseren", 
+                                    "kinesere", "kineserne", "ordfører", "ordføreren", "ordførerens", "ordførere", "ordførerne", 
+                                    "spørgsmål", "møder", "holger", "k", "nielsen", "regering", "regeringen", "regeringens", 
+                                    "folketinget", "folketingets", "måske", "forslag", "egentlig", "rigtig", "rigtigt", "rigtige", 
+                                    "hvert", "bør", "grund", "vigtig", "vigtigt", "vigtige", "ting", "ønsker", "fru", "hr", 
+                                    "selvfølgelig", "gange", "præcis", "sagde", "hele", "fald", "enhedslisten", "sidste", 
+                                    "forstå", "betyder", "alliances", "fortsat", "venstre", "holde", "præsidium", "baseret"))
 ~~~
 {: .language-r}
 
@@ -180,16 +162,23 @@ We then do an `anti_join`of our custom stopword list to our tidy text
 
 
 ~~~
-kina_tidy_blokke2 <- kina_tidy_blokke %>% 
+kina_tidy_blokke3 <- kina_tidy_blokke2 %>% 
   anti_join(custom_stopwords, by = "word")
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in anti_join(., custom_stopwords, by = "word"): object 'kina_tidy_blokke2' not found
+~~~
+{: .error}
 
 Let's now make our plot again
 
 
 ~~~
-kina_tidy_blokke2 %>% 
+kina_tidy_blokke3 %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   count(word, sort = TRUE) %>%
@@ -207,11 +196,9 @@ kina_tidy_blokke2 %>%
 
 
 ~~~
-Selecting by n
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke3' not found
 ~~~
-{: .output}
-
-<img src="../fig/rmd-03-unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
+{: .error}
 
 ## tf_idf
 We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
@@ -220,13 +207,20 @@ We can use the tf_idf calculation. Briefly, tf_idf in this case looks at the wor
 First we need to calculate the tf_idf of each word in our tidy text
 
 ~~~
-kina_tidy_tf_idf <- kina_tidy_blokke2 %>% 
+kina_tidy_tf_idf <- kina_tidy_blokke3 %>% 
   filter(Role != "formand") %>% 
   count(Party, word, sort = TRUE) %>% 
   bind_tf_idf(word, Party, n) %>% 
   arrange(desc(tf_idf))
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in filter(., Role != "formand"): object 'kina_tidy_blokke3' not found
+~~~
+{: .error}
 
 Now let's make our plot. Most commands in our plot here also appeared in our plot of word frequency, but some have already been taken care of by the previous calculation of tf_idf
 
@@ -248,9 +242,7 @@ kina_tidy_tf_idf %>%
 
 
 ~~~
-Selecting by tf_idf
+Error in group_by(., Party): object 'kina_tidy_tf_idf' not found
 ~~~
-{: .output}
-
-<img src="../fig/rmd-03-unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+{: .error}
 
