@@ -80,7 +80,7 @@ download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/da
 Now we read need to read the AFINN Index into a tibble and rename the columns
 
 ```{r eval = TRUE, echo = FALSE}
-AFINN_dansk <- read_csv("../data/AFINN_dansk_csv")
+AFINN_dansk <- read_csv("../data/AFINN_dansk.csv")
 ```
 
 

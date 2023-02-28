@@ -101,9 +101,16 @@ Now we read need to read the AFINN Index into a tibble and rename the columns
 
 
 ~~~
-Error: '../data/AFINN_dansk_csv' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
+Rows: 3552 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): word
+dbl (1): sentiment_value
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ~~~
-{: .error}
+{: .output}
 
 
 
@@ -137,13 +144,6 @@ kina_tidy <- kina %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in is.data.frame(y): object 'AFINN_dansk' not found
-~~~
-{: .error}
-
 ## Analyzing the sentiment of parties
 We would like to measure the sentiment of each party when giving speeches on the topic of China
 
@@ -160,13 +160,6 @@ kina_sentiment_value <- kina_tidy %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in filter(., Role != "formand"): object 'kina_tidy' not found
-~~~
-{: .error}
-
 Now we want to visualize each party's mean sentiment value according to the AFINN-Index
 
 
@@ -178,12 +171,7 @@ kina_sentiment_value %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in ggplot(., aes(x = Party, y = mean_sentiment_value, fill = Party)): object 'kina_sentiment_value' not found
-~~~
-{: .error}
+<img src="../fig/rmd-02-unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
 
 ## Analyzing the sentiment of rød and blå blok
 We would also like to analyze the sentiment of rød and blå blok as a whole respectively. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok and put that in a tibble, then bind the two tibbles into one tibble, and then make a left_join to the rows in our tidy text
@@ -198,13 +186,6 @@ kina_tidy_blokke <- kina_sentiment_value %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in left_join(., blok, by = "Party"): object 'kina_sentiment_value' not found
-~~~
-{: .error}
-
 Now we would like to do the same analysis of mean sentiment value, this time for each blok. We also want to specify that the column for roed_bloek should be red and the column for blaa_blok should be blue
 
 
@@ -218,13 +199,6 @@ kina_blokke_sentiment_value <- kina_tidy_blokke %>%
 
 
 ~~~
-Error in group_by(., Blok): object 'kina_tidy_blokke' not found
-~~~
-{: .error}
-
-
-
-~~~
 kina_blokke_sentiment_value %>% 
   ggplot(aes(x = Blok, y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
@@ -233,10 +207,5 @@ kina_blokke_sentiment_value %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in ggplot(., aes(x = Blok, y = mean_sentiment_value, fill = Blok)): object 'kina_blokke_sentiment_value' not found
-~~~
-{: .error}
+<img src="../fig/rmd-02-unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" width="612" style="display: block; margin: auto;" />
 

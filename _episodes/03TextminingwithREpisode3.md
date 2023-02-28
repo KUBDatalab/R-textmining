@@ -72,19 +72,25 @@ A  more extensive stopword list for Danish is the ISO stopword list. We will use
 
 
 ~~~
-download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopwords.csv", "data/iso_stopord.csv", mode = "wb")
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopwords.csv", "data/iso_stopwords.csv", mode = "wb")
 ~~~
 {: .language-r}
 
 
 ~~~
-Error: '../data/iso_stopord.csv' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
+Rows: 170 Columns: 1
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): word
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ~~~
-{: .error}
+{: .output}
 
 
 ~~~
-iso_stopwords <- read_csv("data/iso_stopord.csv")
+iso_stopwords <- read_csv("data/iso_stopwords.csv")
 ~~~
 {: .language-r}
 
@@ -97,13 +103,6 @@ kina_top_10_ord_2 <- kina_tidy_blokke %>%
   anti_join(iso_stopwords, by = "word")
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in is.data.frame(y): object 'iso_stopwords' not found
-~~~
-{: .error}
 
 
 Unfortunately for us, most of the most common words are words that act like stopwords, carrying no meaning in themselves. To get around this, we can create our own custom list of stopwords as a tibble, and then `anti_join` it with the dataset, just like we did for the already existing stopword lists.
@@ -123,9 +122,28 @@ kina_top_10_ord_2 %>%
 
 
 ~~~
-Error in count(., word, sort = TRUE): object 'kina_top_10_ord_2' not found
+Selecting by n
 ~~~
-{: .error}
+{: .output}
+
+
+
+~~~
+# A tibble: 10 × 2
+   word           n
+   <chr>      <int>
+ 1 kina         495
+ 2 hr           476
+ 3 dansk        278
+ 4 synes        236
+ 5 søren        217
+ 6 ordføreren   197
+ 7 danmark      193
+ 8 tak          189
+ 9 espersen     175
+10 altså        160
+~~~
+{: .output}
 
 
 Based on this, we select the words that we consider stopwords and make them into a tibble. We also want to include among our stopwords the word Danmark and its genitive case and derivative adjectives, because Denmark of course is frequently named in a Danish parliamentary debate and adds little to our analysis and understanding. Let's also remove the name China, its genitive case and derivative adjectives, because we know that the debate is about China. Let's also remove words that state the title or role of a member of the parliament. Let's also remove the words spørgsmål and møder, as it relates internal questions and meetings among the members of parliament. Let's also remove the words about Folketingets Præsidium, which do not pertain to the content of the debate. Upon later examinations some more names have also been added to the custom stopword list
@@ -159,13 +177,6 @@ kina_top_10_ord_3 <- kina_top_10_ord_2 %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in anti_join(., custom_stopwords, by = "word"): object 'kina_top_10_ord_2' not found
-~~~
-{: .error}
-
 Let's now calculate the top 10 words from each party and save it as an object
 
 
@@ -183,9 +194,9 @@ kina_top_10_ord_4 <- kina_top_10_ord_3 %>%
 
 
 ~~~
-Error in filter(., Role != "formand"): object 'kina_top_10_ord_3' not found
+Selecting by n
 ~~~
-{: .error}
+{: .output}
 
 Let us now plot the result
 
@@ -200,12 +211,7 @@ kina_top_10_ord_4 %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in ggplot(., aes(n, word, fill = Party)): object 'kina_top_10_ord_4' not found
-~~~
-{: .error}
+<img src="../fig/rmd-03-unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" width="612" style="display: block; margin: auto;" />
 
 ## tf_idf
 We see that many words co-occur among the parties. How can we make a plot of what each party talks about that the others don't?
@@ -222,13 +228,6 @@ kina_tidy_tf_idf <- kina_top_10_ord_3 %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in filter(., Role != "formand"): object 'kina_top_10_ord_3' not found
-~~~
-{: .error}
-
 Now we want to select each party's 10 words that have the highest tf_idf
 
 
@@ -244,9 +243,9 @@ kina_tidy_tf_idf_top_10 <- kina_tidy_tf_idf %>%
 
 
 ~~~
-Error in group_by(., Party): object 'kina_tidy_tf_idf' not found
+Selecting by tf_idf
 ~~~
-{: .error}
+{: .output}
 
 
 Now let's make our plot.
@@ -262,10 +261,5 @@ kina_tidy_tf_idf_top_10 %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in ggplot(., aes(tf_idf, word, fill = Party)): object 'kina_tidy_tf_idf_top_10' not found
-~~~
-{: .error}
+<img src="../fig/rmd-03-unnamed-chunk-17-1.png" alt="plot of chunk unnamed-chunk-17" width="612" style="display: block; margin: auto;" />
 
