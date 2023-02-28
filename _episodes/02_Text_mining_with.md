@@ -101,7 +101,7 @@ Now we read need to read the AFINN Index into a tibble and rename the columns
 
 
 ~~~
-AFINN <- read_delim("data/AFINN_dansk.txt")
+AFINN_dansk <- read_delim("data/AFINN_dansk.txt")
 ~~~
 {: .language-r}
 
@@ -133,7 +133,9 @@ kina_tidy <- kina %>%
 
 
 ~~~
-Error in is.data.frame(y): object 'AFINN_dansk' not found
+Error in `left_join()`:
+! Join columns in `y` must be present in the data.
+✖ Problem with `word`.
 ~~~
 {: .error}
 
