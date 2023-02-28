@@ -72,6 +72,7 @@ Tokenization of text into individual words is necessary for text mining because 
 
 We use the tidytext library for tokenization
 
+
 ## Stopwords
 In all natural language texts, frequent words that carry little meaning by themselves are distributed all across the text ![”Stopwords examples](../fig/Stopwords.png)
 
@@ -81,9 +82,7 @@ The tm library contains a list of stopwords for Danish, which we'll make into a 
 
 
 ~~~
-stopwords_dansk <- as_tibble(stopwords(kind = "danish"))
-stopwords_dansk <- stopwords_dansk %>% 
-  rename(word = value)
+stopwords_dansk <- tibble(word = stopwords(kind = "danish"))
 ~~~
 {: .language-r}
 
@@ -94,7 +93,7 @@ We need to download the AFINN Index from GitHub
 
 
 ~~~
-download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/AFINN_dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/AFINN_dansk_sentiment_index.txt", "data/AFINN_dansk.txt", mode = "wb")
 ~~~
 {: .language-r}
 
@@ -102,11 +101,7 @@ Now we read need to read the AFINN Index into a tibble and rename the columns
 
 
 ~~~
-AFINN <- read_delim("data/AFINN_dansk.txt", col_names = FALSE)
-AFINN_dansk <- AFINN %>% 
-  rename(
-    word = X1,
-    sentiment_value = X2)
+AFINN <- read_delim("data/AFINN_dansk.txt")
 ~~~
 {: .language-r}
 
@@ -135,6 +130,13 @@ kina_tidy <- kina %>%
 ~~~
 {: .language-r}
 
+
+
+~~~
+Error in is.data.frame(y): object 'AFINN_dansk' not found
+~~~
+{: .error}
+
 ## Analyzing the sentiment of parties
 We would like to measure the sentiment of each party when giving speeches on the topic of China
 
@@ -147,23 +149,34 @@ kina_sentiment_value <- kina_tidy %>%
   group_by(Party) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
-  ) %>% 
-  arrange(desc(mean_sentiment_value))
+  )
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in filter(., Role != "formand"): object 'kina_tidy' not found
+~~~
+{: .error}
 
 Now we want to visualize each party's mean sentiment value according to the AFINN-Index
 
 
 ~~~
 kina_sentiment_value %>% 
-  ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
+  ggplot(aes(x = Party, y = mean_sentiment_value, fill = Party)) + 
   geom_col() +
   labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-02-unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Error in ggplot(., aes(x = Party, y = mean_sentiment_value, fill = Party)): object 'kina_sentiment_value' not found
+~~~
+{: .error}
 
 ## Analyzing the sentiment of rød and blå blok
 We would also like to analyze the sentiment of rød and blå blok as a whole respectively. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok and put that in a tibble, then bind the two tibbles into one tibble, and then make a left_join to the rows in our tidy text
@@ -178,6 +191,13 @@ kina_tidy_blokke <- kina_sentiment_value %>%
 ~~~
 {: .language-r}
 
+
+
+~~~
+Error in left_join(., blok, by = "Party"): object 'kina_sentiment_value' not found
+~~~
+{: .error}
+
 Now we would like to do the same analysis of mean sentiment value, this time for each blok. We also want to specify that the column for roed_bloek should be red and the column for blaa_blok should be blue
 
 
@@ -191,13 +211,25 @@ kina_blokke_sentiment_value <- kina_tidy_blokke %>%
 
 
 ~~~
+Error in group_by(., Blok): object 'kina_tidy_blokke' not found
+~~~
+{: .error}
+
+
+
+~~~
 kina_blokke_sentiment_value %>% 
-  ggplot(aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), y = mean_sentiment_value, fill = Blok)) + 
+  ggplot(aes(x = Blok, y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
   scale_fill_manual(values = c("blue", "red")) +
   labs(x= "Blok") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse order of how the columns appear in the chart
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-02-unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Error in ggplot(., aes(x = Blok, y = mean_sentiment_value, fill = Blok)): object 'kina_blokke_sentiment_value' not found
+~~~
+{: .error}
 
