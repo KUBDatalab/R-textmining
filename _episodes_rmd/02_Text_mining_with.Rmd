@@ -79,7 +79,7 @@ download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/da
 
 Now we read need to read the AFINN Index into a tibble and rename the columns
 
-```{r eval = TRUE, echo = FALSE}
+```{r eval = TRUE, message = FALSE, echo = FALSE}
 AFINN_dansk <- read_csv("../data/AFINN_dansk.csv")
 ```
 
@@ -131,7 +131,7 @@ Now we want to visualize each party's mean sentiment value according to the AFIN
 kina_sentiment_value %>% 
   ggplot(aes(x = Party, y = mean_sentiment_value, fill = Party)) + 
   geom_col() +
-  labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value
+  labs(x= "Party")
 ```
 
 ## Analyzing the sentiment of rød and blå blok
@@ -150,7 +150,9 @@ Now we would like to do the same analysis of mean sentiment value, this time for
 ```{r}
 kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
   group_by(Blok) %>% 
-  arrange(desc(mean_sentiment_value))
+  summarize(
+    mean_sentiment_value = mean(sentiment_value, na.rm=T)
+  )
 ```
 
 
@@ -159,6 +161,6 @@ kina_blokke_sentiment_value %>%
   ggplot(aes(x = Blok, y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
   scale_fill_manual(values = c("blue", "red")) +
-  labs(x= "Blok") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse order of how the columns appear in the chart
+  labs(x= "Blok")
 ```
 

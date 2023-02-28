@@ -77,16 +77,6 @@ download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/da
 {: .language-r}
 
 
-~~~
-Rows: 170 Columns: 1
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): word
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
 
 
 ~~~

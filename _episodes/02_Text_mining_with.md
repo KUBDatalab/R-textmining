@@ -100,17 +100,6 @@ download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/da
 Now we read need to read the AFINN Index into a tibble and rename the columns
 
 
-~~~
-Rows: 3552 Columns: 2
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): word
-dbl (1): sentiment_value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
 
 
 
@@ -167,7 +156,7 @@ Now we want to visualize each party's mean sentiment value according to the AFIN
 kina_sentiment_value %>% 
   ggplot(aes(x = Party, y = mean_sentiment_value, fill = Party)) + 
   geom_col() +
-  labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value
+  labs(x= "Party")
 ~~~
 {: .language-r}
 
@@ -192,9 +181,23 @@ Now we would like to do the same analysis of mean sentiment value, this time for
 ~~~
 kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
   group_by(Blok) %>% 
-  arrange(desc(mean_sentiment_value))
+  summarize(
+    mean_sentiment_value = mean(sentiment_value, na.rm=T)
+  )
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in `summarize()`:
+ℹ In argument: `mean_sentiment_value = mean(sentiment_value, na.rm =
+  T)`.
+ℹ In group 1: `Blok = "blaa_blok"`.
+Caused by error in `mean()`:
+! object 'sentiment_value' not found
+~~~
+{: .error}
 
 
 
@@ -203,9 +206,14 @@ kina_blokke_sentiment_value %>%
   ggplot(aes(x = Blok, y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
   scale_fill_manual(values = c("blue", "red")) +
-  labs(x= "Blok") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse order of how the columns appear in the chart
+  labs(x= "Blok")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-02-unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Error in ggplot(., aes(x = Blok, y = mean_sentiment_value, fill = Blok)): object 'kina_blokke_sentiment_value' not found
+~~~
+{: .error}
 
