@@ -101,16 +101,16 @@ Now we read need to read the AFINN Index into a tibble and rename the columns
 
 
 ~~~
+Error: '../data/AFINN_dansk_csv' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
+~~~
+{: .error}
+
+
+
+~~~
 AFINN_dansk <- read_csv("data/AFINN_dansk.csv")
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error: 'data/AFINN_dansk.csv' does not exist in current working directory ('/home/runner/work/R-textmining/R-textmining/_episodes_rmd').
-~~~
-{: .error}
 
 ## Bringing it all together: joins
 We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together based on columns and rows that they have in common
