@@ -56,6 +56,7 @@ Tokenization of text into individual words is necessary for text mining because 
 
 We use the tidytext library for tokenization
 
+
 ## Stopwords
 In all natural language texts, frequent words that carry little meaning by themselves are distributed all across the text ![”Stopwords examples](../fig/Stopwords.png)
 
@@ -64,9 +65,7 @@ The frequent low-meaning words need to be removed because they do not add anythi
 The tm library contains a list of stopwords for Danish, which we'll make into a tibble. We have to specify that the list of stopwords that we want to call is the list for the Danish language. We also rename the tibble column that contains the stopwords. Note that stopword lists are also available for most major European languages
 
 ```{r}
-stopwords_dansk <- as_tibble(stopwords(kind = "danish"))
-stopwords_dansk <- stopwords_dansk %>% 
-  rename(word = value)
+stopwords_dansk <- tibble(word = stopwords(kind = "danish"))
 ```
 
 ## Sentiment analysis
@@ -75,17 +74,13 @@ Sentiment analysis is a method for measuring the sentiment of a text. To do this
 We need to download the AFINN Index from GitHub
 
 ```{r eval = F}
-download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/AFINN_dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/AFINN_dansk_sentiment_index.txt", "data/AFINN_dansk.txt", mode = "wb")
 ```
 
 Now we read need to read the AFINN Index into a tibble and rename the columns
 
 ```{r, message = FALSE}
-AFINN <- read_delim("data/AFINN_dansk.txt", col_names = FALSE)
-AFINN_dansk <- AFINN %>% 
-  rename(
-    word = X1,
-    sentiment_value = X2)
+AFINN <- read_delim("data/AFINN_dansk.txt")
 ```
 
 ## Bringing it all together: joins
@@ -122,15 +117,14 @@ kina_sentiment_value <- kina_tidy %>%
   group_by(Party) %>% 
   summarize(
     mean_sentiment_value = mean(sentiment_value, na.rm=T)
-  ) %>% 
-  arrange(desc(mean_sentiment_value))
+  )
 ```
 
 Now we want to visualize each party's mean sentiment value according to the AFINN-Index
 
 ```{r}
 kina_sentiment_value %>% 
-  ggplot(aes(x = fct_rev(fct_reorder(Party, mean_sentiment_value)), y = mean_sentiment_value, fill = Party)) + 
+  ggplot(aes(x = Party, y = mean_sentiment_value, fill = Party)) + 
   geom_col() +
   labs(x= "Party") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value
 ```
@@ -157,7 +151,7 @@ kina_blokke_sentiment_value <- kina_tidy_blokke %>%
 
 ```{r}
 kina_blokke_sentiment_value %>% 
-  ggplot(aes(x = fct_rev(fct_reorder(Blok, mean_sentiment_value)), y = mean_sentiment_value, fill = Blok)) + 
+  ggplot(aes(x = Blok, y = mean_sentiment_value, fill = Blok)) + 
   geom_col() +
   scale_fill_manual(values = c("blue", "red")) +
   labs(x= "Blok") #fct_reorder reorders parties according to value of y. fct_rev sorts the x-values from largest to smallest y-value. scale_fill_manual allows us to specify colors for each column. Because of factpr reverse the colors must be specified in reverse order of how the columns appear in the chart
