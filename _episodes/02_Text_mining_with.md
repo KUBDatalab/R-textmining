@@ -182,22 +182,10 @@ Now we would like to do the same analysis of mean sentiment value, this time for
 kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
   group_by(Blok) %>% 
   summarize(
-    mean_sentiment_value = mean(sentiment_value, na.rm=T)
+    mean_sentiment_value = mean(mean_sentiment_value, na.rm=T)
   )
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in `summarize()`:
-ℹ In argument: `mean_sentiment_value = mean(sentiment_value, na.rm =
-  T)`.
-ℹ In group 1: `Blok = "blaa_blok"`.
-Caused by error in `mean()`:
-! object 'sentiment_value' not found
-~~~
-{: .error}
 
 
 
@@ -210,10 +198,5 @@ kina_blokke_sentiment_value %>%
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in ggplot(., aes(x = Blok, y = mean_sentiment_value, fill = Blok)): object 'kina_blokke_sentiment_value' not found
-~~~
-{: .error}
+<img src="../fig/rmd-02-unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" width="612" style="display: block; margin: auto;" />
 
