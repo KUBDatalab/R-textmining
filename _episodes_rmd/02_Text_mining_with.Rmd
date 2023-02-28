@@ -80,7 +80,7 @@ download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/da
 Now we read need to read the AFINN Index into a tibble and rename the columns
 
 ```{r, message = FALSE}
-AFINN <- read_delim("data/AFINN_dansk.txt")
+AFINN_dansk <- read_delim("data/AFINN_dansk.txt")
 ```
 
 ## Bringing it all together: joins
