@@ -168,7 +168,7 @@ We would also like to analyze the sentiment of rød and blå blok as a whole res
 
 ~~~
 roed_blok <- tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
-blaa_blok <- tibble(Party= c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
+blaa_blok <- tibble(Party = c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
 blok <- bind_rows(roed_blok, blaa_blok)
 kina_tidy_blokke <- kina_sentiment_value %>% 
   left_join(blok, by = "Party")
