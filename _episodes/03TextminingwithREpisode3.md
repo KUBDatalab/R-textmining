@@ -72,7 +72,7 @@ A  more extensive stopword list for Danish is the ISO stopword list. We will use
 
 
 ~~~
-download.file("https://raw.githubusercontent.com/swillerhansen/R-textmining/main/data/iso_stopwords.csv", "data/iso_stopord.csv", mode = "wb")
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopwords.csv", "data/iso_stopord.csv", mode = "wb")
 iso_stopwords <- read_csv("data/iso_stopord.csv")
 ~~~
 {: .language-r}

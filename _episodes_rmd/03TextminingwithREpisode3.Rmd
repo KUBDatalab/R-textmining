@@ -87,7 +87,7 @@ kina_top_10_ord %>%
 A  more extensive stopword list for Danish is the ISO stopword list. We will use it know, so lets download it from the repository. Then we save it as an object. Then we make it into a tibble to prepare it for `anti_join` with our dataset
 
 ```{r, eval = TRUE, message = FALSE}
-download.file("https://raw.githubusercontent.com/swillerhansen/R-textmining/main/data/iso_stopwords.csv", "data/iso_stopord.csv", mode = "wb")
+download.file("https://raw.githubusercontent.com/KUBDatalab/R-textmining/main/data/iso_stopwords.csv", "data/iso_stopord.csv", mode = "wb")
 iso_stopwords <- read_csv("data/iso_stopord.csv")
 ```
 
