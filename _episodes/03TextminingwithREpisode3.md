@@ -143,8 +143,8 @@ Based on this, we select the words that we consider stopwords and make them into
 ~~~
 custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", "altså", "søren", "tror", 
                                     "få", "bare", "derfor", "godt", "andre", "må", "espersen", "mener", "gøre", "helt", "dag", 
-                                    "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak", "måde", 
-                                    "set", "siger", "andet", "sagt", "år", "lige", "står", "tage", "nemlig", "lidt",
+                                    "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak",
+                                    "måde", "set", "siger", "andet", "sagt", "år", "lige", "står", "tage", "nemlig", "lidt",
                                     "sag", "går", "kommer", "nok", "danmark", "danmarks", "dansk", "danske", "danskt", 
                                     "kina", "kinas", "kinesisk", "kinesiske", "kinesiskt", "kineser", "kineseren", 
                                     "kinesere", "kineserne", "ordfører", "ordføreren", "ordførerens", "ordførere", "ordførerne", 

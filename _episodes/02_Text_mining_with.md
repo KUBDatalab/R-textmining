@@ -44,18 +44,17 @@ head(kina)
 
 ~~~
 # A tibble: 6 × 19
-  ID          Date       Start …¹ End ti…²  Time Agend…³ Case …⁴ Case …⁵ Agend…⁶
-  <chr>       <date>     <time>   <time>   <dbl> <chr>     <dbl> <chr>   <chr>  
-1 2010011214… 2010-01-12 14:37:05 14:37:25    20 2010-0…      61 B       1. beh…
-2 2010011214… 2010-01-12 14:37:25 14:47:59   634 2010-0…      61 B       1. beh…
-3 2010011214… 2010-01-12 14:47:59 14:48:05     6 2010-0…      61 B       1. beh…
-4 2010011214… 2010-01-12 14:48:05 14:49:01    56 2010-0…      61 B       1. beh…
-5 2010011214… 2010-01-12 14:49:01 14:49:03     2 2010-0…      61 B       1. beh…
-6 2010011214… 2010-01-12 14:49:03 14:49:47    44 2010-0…      61 B       1. beh…
-# … with 10 more variables: `Subject 1` <chr>, `Subject 2` <chr>, Name <chr>,
-#   Gender <chr>, Party <chr>, Role <chr>, Title <chr>, Birth <date>,
-#   Age <dbl>, Text <chr>, and abbreviated variable names ¹​`Start time`,
-#   ²​`End time`, ³​`Agenda item`, ⁴​`Case no`, ⁵​`Case type`, ⁶​`Agenda title`
+  ID            Date       `Start time` `End time`  Time `Agenda item` `Case no`
+  <chr>         <date>     <time>       <time>     <dbl> <chr>             <dbl>
+1 201001121437… 2010-01-12 14:37:05     14:37:25      20 2010-01-12-7         61
+2 201001121437… 2010-01-12 14:37:25     14:47:59     634 2010-01-12-7         61
+3 201001121447… 2010-01-12 14:47:59     14:48:05       6 2010-01-12-7         61
+4 201001121448… 2010-01-12 14:48:05     14:49:01      56 2010-01-12-7         61
+5 201001121449… 2010-01-12 14:49:01     14:49:03       2 2010-01-12-7         61
+6 201001121449… 2010-01-12 14:49:03     14:49:47      44 2010-01-12-7         61
+# ℹ 12 more variables: `Case type` <chr>, `Agenda title` <chr>,
+#   `Subject 1` <chr>, `Subject 2` <chr>, Name <chr>, Gender <chr>,
+#   Party <chr>, Role <chr>, Title <chr>, Birth <date>, Age <dbl>, Text <chr>
 ~~~
 {: .output}
 
@@ -73,18 +72,27 @@ Tokenization of text into individual words is necessary for text mining because 
 We use the tidytext library for tokenization
 
 
+
+~~~
+kina_tidy <- kina %>% 
+  unnest_tokens(word, Text) #tidytext tokenization
+~~~
+{: .language-r}
+
+
 ## Stopwords
 In all natural language texts, frequent words that carry little meaning by themselves are distributed all across the text ![”Stopwords examples](../fig/Stopwords.png)
 
 The frequent low-meaning words need to be removed because they do not add anything to our understanding of the texts and are just noise
 
-The tm library contains a list of stopwords for Danish, which we'll make into a tibble. We have to specify that the list of stopwords that we want to call is the list for the Danish language. We also rename the tibble column that contains the stopwords. Note that stopword lists are also available for most major European languages
+The tm library contains a list of stopwords for Danish, which we'll make into a tibble. We have to specify that the list of stopwords that we want to call is the list for the Danish language. Note that stopword lists are also available for most major European languages
 
 
 ~~~
 stopwords_dansk <- tibble(word = stopwords(kind = "danish"))
 ~~~
 {: .language-r}
+
 
 ## Sentiment analysis
 Sentiment analysis is a method for measuring the sentiment of a text. To do this, it is necessary to have a list of words that have been assigned to a certain sentiment. This can be a simple assignation of words into positive and negative, it can be an assignation to one among a multitude of categories, and the word can have a value on a scale. In this course we will use the AFINN index for Danish, which assigns approximately 3500 words on a scale from +5 to -5. This will enable us to calculate and compare the overall sentiment of the various speeches. As a side note, AFINN index is also available in English. 
@@ -109,7 +117,7 @@ AFINN_dansk <- read_csv("data/AFINN_dansk.csv")
 {: .language-r}
 
 ## Bringing it all together: joins
-We now have a method for tokenization of text, a stopword list to filter out stopwords, and a sentiment index to measure the sentiment of the parliament speeches. Now we need to bring it all together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together based on columns and rows that they have in common
+We have now created tibbles, each with the words appropriate for removal of stopwords and application of sentiment analysis respectively. Now we need to bring them together in the correct order, and we do this by using join-functions. The join functions from the tidyverse library allow tibbles to be joined together based on columns that have cells where the content is the same in both tibbles.
 
 There are fundamentally 2 types of joins:
 * Mutating joins (which add columns)
@@ -124,10 +132,11 @@ Filtering joins work by filtering away some rows in the tibble. We will use the 
 
 For more info on joins see [R for Data Science section section 13: Relational data](https://r4ds.had.co.nz/relational-data.html)
 
+We will use the anti_join first, beause we need to filter away stopwords before we analyse the text with sentiment analysis
+
 
 ~~~
-kina_tidy <- kina %>% 
-  unnest_tokens(word, Text) %>% #tidytext tokenization
+kina_tidy_2 <- kina_tidy %>% 
   anti_join(stopwords_dansk) %>% #stopwords in Danish
   left_join(AFINN_dansk, by = "word") #left join with AFINN Index in Danish
 ~~~
@@ -140,7 +149,7 @@ First we need to calculate the mean sentiment value for each party. We save it a
 
 
 ~~~
-kina_sentiment_value <- kina_tidy %>% 
+kina_sentiment_value <- kina_tidy_2 %>% 
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   summarize(
@@ -160,7 +169,7 @@ kina_sentiment_value %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-02-unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-02-unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 ## Analyzing the sentiment of rød and blå blok
 We would also like to analyze the sentiment of rød and blå blok as a whole respectively. To do this, we need to add a column to each row that specifies whether the word comes from a member of a party in rød blok or blå blok. We must therefore first define which parties make up rød and blå blok and put that in a tibble, then bind the two tibbles into one tibble, and then make a left_join to the rows in our tidy text
@@ -198,5 +207,5 @@ kina_blokke_sentiment_value %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-02-unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-02-unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" width="612" style="display: block; margin: auto;" />
 
