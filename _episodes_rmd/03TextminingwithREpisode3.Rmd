@@ -31,27 +31,24 @@ library(tidyverse)
 
 kina <- read_delim("../data/kina.txt")
 
-stopwords_dansk <- as_tibble(stopwords(kind = "danish"))
-stopwords_dansk <- stopwords_dansk %>% 
-  rename(word = value)
+stopwords_dansk <- tibble(word = stopwords(kind = "danish"))
 
 download.file("https://raw.githubusercontent.com/swillerhansen/R-textmining/main/data/AFINN%20dansk.txt", "data/AFINN_dansk.txt", mode = "wb")
 
-AFINN <- read_delim("data/AFINN_dansk.txt", col_names = FALSE)
-AFINN_dansk <- AFINN %>% 
-  rename(
-    word = X1,
-    sentiment_value = X2)
+AFINN_dansk <- read_csv("../data/AFINN_dansk.csv")
 
 kina_tidy <- kina %>% 
-  unnest_tokens(word, Text) %>% #tidytext tokenization
+  unnest_tokens(word, Text) #tidytext tokenization
+
+kina_tidy_2 <- kina_tidy %>% 
   anti_join(stopwords_dansk) %>% #stopwords in Danish
   left_join(AFINN_dansk, by = "word") #left join with AFINN Index in Danish
+
 
 roed_blok <- tibble(Party = c("ALT", "EL", "SF", "S", "RV"), Blok = c("roed_blok"))
 blaa_blok <- tibble(Party= c("V", "KF", "LA", "DF"), Blok = c("blaa_blok"))
 blok <- bind_rows(roed_blok, blaa_blok)
-kina_tidy_blokke <- kina_tidy %>% 
+kina_tidy_blokke <- kina_tidy_2 %>% 
   left_join(blok, by = "Party")
 
 
@@ -127,8 +124,8 @@ Based on this, we select the words that we consider stopwords and make them into
 ```{r}
 custom_stopwords <- tibble(word = c("så", "kan", "hr", "sige", "synes", "ved", "altså", "søren", "tror", 
                                     "få", "bare", "derfor", "godt", "andre", "må", "espersen", "mener", "gøre", "helt", "dag", 
-                                    "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak", "måde", 
-                                    "set", "siger", "andet", "sagt", "år", "lige", "står", "tage", "nemlig", "lidt",
+                                    "faktisk", "folkeparti", "gerne", "side", "gør", "nogen", "fordi", "hvordan", "tak",
+                                    "måde", "set", "siger", "andet", "sagt", "år", "lige", "står", "tage", "nemlig", "lidt",
                                     "sag", "går", "kommer", "nok", "danmark", "danmarks", "dansk", "danske", "danskt", 
                                     "kina", "kinas", "kinesisk", "kinesiske", "kinesiskt", "kineser", "kineseren", 
                                     "kinesere", "kineserne", "ordfører", "ordføreren", "ordførerens", "ordførere", "ordførerne", 
