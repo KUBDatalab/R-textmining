@@ -137,7 +137,7 @@ We will use the anti_join first, beause we need to filter away stopwords before 
 
 ~~~
 kina_tidy_2 <- kina_tidy %>% 
-  anti_join(stopwords_dansk) %>% #stopwords in Danish
+  anti_join(stopwords_dansk, by = "word") %>% #stopwords in Danish
   left_join(AFINN_dansk, by = "word") #left join with AFINN Index in Danish
 ~~~
 {: .language-r}
