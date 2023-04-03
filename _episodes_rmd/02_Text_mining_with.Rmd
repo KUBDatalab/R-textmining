@@ -129,7 +129,7 @@ kina_sentiment_value <- kina_tidy_2 %>%
   filter(Role != "formand") %>% 
   group_by(Party) %>% 
   summarize(
-    mean_sentiment_value = mean(sentiment_value, na.rm=T)
+    mean_sentiment_value = mean(sentiment_value, na.rm=TRUE)
   )
 ```
 
@@ -159,7 +159,7 @@ Now we would like to do the same analysis of mean sentiment value, this time for
 kina_blokke_sentiment_value <- kina_tidy_blokke %>% 
   group_by(Blok) %>% 
   summarize(
-    mean_sentiment_value = mean(mean_sentiment_value, na.rm=T)
+    mean_sentiment_value = mean(mean_sentiment_value, na.rm=TRUE)
   )
 ```
 
